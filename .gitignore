@@ -6,6 +6,9 @@ npm-debug.log
 package-lock.json
 test/*.log
 
+# Windows
+desktop.ini
+thumbs.db
 
-# MacOS specific #
+# Apple macOS specific #
 .DS_Store
