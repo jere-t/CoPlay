@@ -1,9 +1,9 @@
-// handlers/city.js
-import { dbGetAllCities, dbGetCityById } from '../models/city';
+// handlers/club.js
+import { dbGetAllUsers, dbGetUserById, dbUpdateUser } from '../models/user';
 
-//Get all cities
-export const getAllCities = (request, reply) => {
-    return dbGetAllCities().then(data => {
+//Get all clubs
+export const getAllUsers = (request, reply) => {
+    return dbGetAllUsers().then(data => {
         if (data == null) {
             return reply.response(JSON.stringify(
                 {
@@ -31,10 +31,10 @@ export const getAllCities = (request, reply) => {
     });
 }
 
-//Get a city by Id
-export const getCityById = (request, reply) => {
+//Get a club by Id
+export const getUserById = (request, reply) => {
     let id = parseInt(request.params.id);
-     return dbGetCityById(id).then(data => {
+     return dbGetUserById(id).then(data => {
         if (data == null) {
             return reply.response(JSON.stringify(
                 {
@@ -59,5 +59,35 @@ export const getCityById = (request, reply) => {
                 }
             }
         )).code(500);
+    });
+}
+
+//Update user
+export const updateUser = (request, reply) => {
+    let req = request.payload;
+    return dbUpdateUser(req, req.id).then(data => {
+      return reply.response(data).code(200);
+    }).catch((error) => {
+      if (error.errno == 1054) {
+         return reply.response(JSON.stringify(
+             {
+                 "error": {
+                     "error_type": "DATABASE_ERROR",
+                     "error_message": "Bad parameter name",
+                     "db_message": error.sqlMessage
+                 }
+             }
+         )).code(409);
+      } else {
+         return reply.response(JSON.stringify(
+             {
+                 "error": {
+                     "error_type": "DATABASE_ERROR",
+                     "error_message": "Unspecified_server_error",
+                     "inner_error": error.body
+                 }
+             }
+         )).code(500);
+      }
     });
 }

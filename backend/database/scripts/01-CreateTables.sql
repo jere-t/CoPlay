@@ -19,19 +19,19 @@ CREATE TABLE cpUser (
 		email       		VARCHAR(255) 		NOT NULL,
 		userBirthDay    DATE,
 
-		CONSTRAINT PK_cpUser PRIMARY KEY (id),
+		CONSTRAINT PK_cpUser PRIMARY KEY (idUser),
 	  CONSTRAINT AK_cpUser_username UNIQUE (username),
-	  CONSTRAINT AK_cpUser_email UNIQUE (email),
+	  CONSTRAINT AK_cpUser_email UNIQUE (email)
 );
 -- ====================================================
 -- Table : cpCountry
 -- ====================================================
 CREATE TABLE cpCountry (
-		idCountry 			INTEGER					NOT NULL,
-		nameCountry 		VARCHAR(75) 		NOT NULL,
+	idCountry 			INTEGER 				NOT NULL,
+	nameCountry 		VARCHAR(75) 		NOT NULL,
 
-		CONSTRAINT PK_cpCountry PRIMARY KEY (idCountry),
-		CONSTRAINT AK_cpCountry_nameCountry UNIQUE
+	CONSTRAINT PK_cpCountry PRIMARY KEY (idCountry),
+	CONSTRAINT AK_cpCountry_nameCountry UNIQUE (nameCountry)
 );
 -- ====================================================
 -- Table : cpCity
@@ -42,12 +42,12 @@ CREATE TABLE cpCity (
 	fkCountry				INTEGER					NOT NULL,
 
 	CONSTRAINT PK_cpCity PRIMARY KEY (idCity),
-	CONSTRAINT AK_cpCity_nameCity UNIQUE,
+	CONSTRAINT AK_cpCity_nameCity UNIQUE (nameCity),
 
 	CONSTRAINT FK_cpCity_cpCountry FOREIGN KEY (fkCountry)
 		REFERENCES cpCountry(idCountry)
 		ON DELETE CASCADE
-		ON UPDATE NO ACTION,
+		ON UPDATE NO ACTION
 );
 -- ====================================================
 -- Table : cpSport
@@ -57,7 +57,7 @@ CREATE TABLE cpSport (
 		nameSport				VARCHAR(255) 		NOT NULL,
 
 		CONSTRAINT PK_cpSport	PRIMARY KEY (idSport),
-		CONSTRAINT AK_cpSport_nameSport UNIQUE
+		CONSTRAINT AK_cpSport_nameSport UNIQUE (nameSport)
 );
 -- ====================================================
 -- Table : cpCourtType
@@ -67,8 +67,7 @@ CREATE TABLE cpCourtType (
 		courtType				VARCHAR(255) 		NOT NULL,
 		isIndoor				BOOLEAN					NOT NULL,
 
-		CONSTRAINT PK_cpCourtType PRIMARY KEY (idCourtType),
-		CONSTRAINT AK_cpCourtType_courtType UNIQUE
+		CONSTRAINT PK_cpCourtType PRIMARY KEY (idCourtType)
 );
 -- ====================================================
 -- Table : cpClub
@@ -84,7 +83,7 @@ CREATE TABLE cpClub (
 		CONSTRAINT FK_cpClub_cpCity FOREIGN KEY (fkCity)
 	    REFERENCES cpCity(idCity)
 	    ON DELETE CASCADE
-	    ON UPDATE NO ACTION,
+	    ON UPDATE NO ACTION
 );
 -- ====================================================
 -- Table : cpPlayground
@@ -112,7 +111,7 @@ CREATE TABLE cpPlayground (
 		CONSTRAINT FK_cpPlayground_cpCourtType FOREIGN KEY (fkCourtType)
 	    REFERENCES cpCourtType(idCourtType)
 	    ON DELETE CASCADE
-	    ON UPDATE NO ACTION,
+	    ON UPDATE NO ACTION
 );
 -- ====================================================
 -- Table : cpGame
@@ -131,7 +130,7 @@ CREATE TABLE cpGame (
 		CONSTRAINT FK_cpGame_cpPlayground FOREIGN KEY (fkPlayground)
 	    REFERENCES cpPlayground(idPg)
 	    ON DELETE CASCADE
-	    ON UPDATE NO ACTION,
+	    ON UPDATE NO ACTION
 );
 -- ====================================================
 -- Table : cpJoin
@@ -151,7 +150,7 @@ CREATE TABLE cpJoin (
 	  CONSTRAINT FK_cpJoin_cpGame FOREIGN KEY (fkGameJoin)
 	    REFERENCES cpGame(idGame)
 	    ON DELETE CASCADE
-	    ON UPDATE NO ACTION,
+	    ON UPDATE NO ACTION
 );
 -- ====================================================
 -- Table : cpIsMember
@@ -160,7 +159,7 @@ CREATE TABLE cpIsMember (
 		fkUserIsM      	INTEGER					NOT NULL,
 		fkClubIsM				INTEGER 				NOT NULL,
 		isAdmin     		BOOLEAN 				NOT NULL,
-		endSubsctiption DATE, --CHECKED when login
+		endSubsctiption DATE,
 
 		CONSTRAINT PK_cpIsMember PRIMARY KEY (fkUserIsM, fkClubIsM),
 
@@ -172,7 +171,7 @@ CREATE TABLE cpIsMember (
 	  CONSTRAINT FK_cpIsMember_cpClub FOREIGN KEY (fkClubIsM)
 	    REFERENCES cpClub(idClub)
 	    ON DELETE CASCADE
-	    ON UPDATE NO ACTION,
+	    ON UPDATE NO ACTION
 );
 
 /* END */

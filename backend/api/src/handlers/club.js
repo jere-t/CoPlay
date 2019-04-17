@@ -1,9 +1,9 @@
-// handlers/city.js
-import { dbGetAllCities, dbGetCityById } from '../models/city';
+// handlers/club.js
+import { dbGetAllClubs, dbGetClubById } from '../models/club';
 
-//Get all cities
-export const getAllCities = (request, reply) => {
-    return dbGetAllCities().then(data => {
+//Get all clubs
+export const getAllClubs = (request, reply) => {
+    return dbGetAllClubs().then(data => {
         if (data == null) {
             return reply.response(JSON.stringify(
                 {
@@ -31,10 +31,10 @@ export const getAllCities = (request, reply) => {
     });
 }
 
-//Get a city by Id
-export const getCityById = (request, reply) => {
+//Get a club by Id
+export const getClubById = (request, reply) => {
     let id = parseInt(request.params.id);
-     return dbGetCityById(id).then(data => {
+     return dbGetClubById(id).then(data => {
         if (data == null) {
             return reply.response(JSON.stringify(
                 {

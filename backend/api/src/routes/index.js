@@ -11,6 +11,9 @@ import courtType from './courtType';
 import isMember from './isMember';
 
 //concat every routes in one const
-const routes = [].concat(user, join, game, playground, club, city, country, sport, courtType, isMember);
+const routes = [].concat(user, club, city, country);
+
+console.log("Following routes are defined in the RESTfull api:");
+console.log(routes);
 
 export default routes;

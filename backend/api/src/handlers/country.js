@@ -1,7 +1,7 @@
 // handlers/country.js
 import { dbGetAllCountries, dbGetCountryById } from '../models/country';
 
-//Get all country
+//Get all countries
 export const getAllCountries = (request, reply) => {
     return dbGetAllCountries().then(data => {
         if (data == null) {

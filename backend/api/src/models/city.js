@@ -5,15 +5,15 @@ import knex from '../db/knex';
 
  //Querry to get all cities from City table
 export const dbGetAllCities = () => {
-    return knex.from('City')
-          .leftJoin('Country', 'Country.idCountry', '=', 'City.fkCountry')
+    return knex.from('cpCity')
+          .leftJoin('cpCountry', 'cpCountry.idCountry', '=', 'cpCity.fkCountry')
           .options({ nestTables: true })
           .select().orderBy('nameCountry').orderBy('nameCity');
 };
  //Querry to get a city from City table
-export const dbGetRoleTypeById = (id) => {
-    return knex.from('City')
-          .leftJoin('Country', 'Country.idCountry', '=', 'City.fkCountry')
+export const dbGetCityById = (id) => {
+    return knex.from('cpCity')
+          .leftJoin('cpCountry', 'cpCountry.idCountry', '=', 'cpCity.fkCountry')
           .options({ nestTables: true })
-          .where('id', id).first().select();
+          .where('idCity', id).first().select();
 };

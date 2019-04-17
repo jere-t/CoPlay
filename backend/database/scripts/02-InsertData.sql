@@ -1,6 +1,6 @@
 -- ====================================================================
 -- Script : 02-InsertData.sql
--- Object  : Data Insertion on ConnectNPlay's tables 
+-- Object  : Data Insertion on ConnectNPlay's tables
 -- ====================================================================
 -- ====================================================
 -- Insert Table : cpUser
@@ -8,19 +8,19 @@
 -- password are "test" Except for admin --> "admin"
 INSERT INTO cpUser
     VALUES
-      (1, 'admin', 'admin', 'Admin', 'CoPlay','admin@connectnplay.com', '01.11.1995'),
-      (2, 'maret', 'admin', 'Jeremy', 'Maret','jeremy.maret@connectnplay.com', '16.11.1995'),
-      (3, 'salomebt', 'test', 'Salomé', 'Boudet','salosport@chou.fr', '26.03.1998'),
-      (4, 'lucas', 'test', 'Lucas', 'Ducret','lulududu@gmail.fr', '26.07.1996'),
-      (5, 'raphael', 'test', 'Raphaël', 'Azzoug','raph@hotmail.fr', '12.06.1998'),
-      (6, 'julien', 'test', 'Julien', 'Dubuis','juju@hotmail.fr', '17.08.1998'),
-      (7, 'hannes', 'test', 'Hannes', 'Aukthun','hanhan@hotmail.de', '01.06.1997'),
-      (8, 'raphael', 'test', 'Raphaël', 'Azzoug','raph@hotmail.fr', '12.06.1998'),
-      (9, 'clement', 'test', 'Clement', 'Vasseur','clecle@hotmail.fr', '17.10.1997'),
-      (10, 'pottier', 'test', 'Sophie', 'Pottier','soso@hotmail.fr', '01.06.1997'),
-      (11, 'ben', 'test', 'Benjamin', 'Decaillet','Benny@hotmail.ch', '01.06.1993'),
-      (12, 'kevin', 'test', 'Kevin', 'Berret','kev@hotmail.ch', '01.06.1992'),
-      (13, 'dylan', 'test', 'Dylan', 'Lopez','dydy@hotmail.fr', '01.06.2009');
+      (1, 'admin', 'admin', 'Admin', 'CoPlay','admin@connectnplay.com', '1995.01.11'),
+      (2, 'maret', 'admin', 'Jeremy', 'Maret','jeremy.maret@connectnplay.com', '1995.11.16'),
+      (3, 'salomebt', 'test', 'Salomé', 'Boudet','salosport@chou.fr', '1998.03.26'),
+      (4, 'lucas', 'test', 'Lucas', 'Ducret','lulududu@gmail.fr', '1996.06.07'),
+      (5, 'rudolf', 'test', 'Rudolf', 'Ligid','rurud@hotmail.fr', '1998.10.06'),
+      (6, 'julien', 'test', 'Julien', 'Dubuis','juju@hotmail.fr', '1998.07.08'),
+      (7, 'hannes', 'test', 'Hannes', 'Aukthun','hanhan@hotmail.de', '1997.01.06'),
+      (8, 'raphael', 'test', 'Raphaël', 'Azzoug','raph@hotmail.fr', '1998.12.06'),
+      (9, 'clement', 'test', 'Clement', 'Vasseur','clecle@hotmail.fr', '1997.10.10'),
+      (10, 'pottier', 'test', 'Sophie', 'Pottier','soso@hotmail.fr', '1997.01.06'),
+      (11, 'ben', 'test', 'Benjamin', 'Decaillet','Benny@hotmail.ch', '1993.01.06'),
+      (12, 'kevin', 'test', 'Kevin', 'Berret','kev@hotmail.ch', '1992.01.06'),
+      (13, 'dylan', 'test', 'Dylan', 'Lopez','dydy@hotmail.fr', '2009.01.06');
 COMMIT;
 -- ====================================================
 -- Insert Table : cpCountry
@@ -30,7 +30,7 @@ INSERT INTO cpCountry
     VALUES
       (1, 'Switzerland'),
       (2, 'France'),
-      (3, 'Finland')
+      (3, 'Finland'),
       (4, 'Spain'),
       (5, 'Italy'),
       (6, 'Germany');
@@ -110,7 +110,7 @@ INSERT INTO cpPlayground
     (9, 3, 4, 1, '1', TRUE),
     (10, 3, 4, 1, '2', TRUE),
     (11, 7, 4, 1, 'T1', TRUE),
-    (12, 7, 4, 2, 'T2', FALSE)
+    (12, 7, 4, 2, 'T2', FALSE),
     (13, 2, 1, 4, 'Central', TRUE),
     (14, 2, 1, 4, 'Mary', TRUE),
     (15, 2, 1, 4, 'Toto', TRUE);
@@ -121,17 +121,17 @@ COMMIT;
 INSERT INTO cpGame
   (idGame, fkPlayground, isSingle, isPrivate, duration, startDate, startTime)
     VALUES
-  (1, 4, FALSE, TRUE, 90, '27.05.2019', '11:00'),
-  (2, 4, FALSE, FALSE, 90, '28.05.2019', '17:00'),
-  (3, 1, TRUE, TRUE, 60, '27.06.2019', '09:00'),
-  (4, 2, TRUE, TRUE, 60, '27.06.2019', '10:00'),
-  (5, 3, FALSE, FALSE, 60, '27.06.2019', '11:00'),
-  (6, 1, TRUE, FALSE, 60, '27.06.2019', '12:00'),
-  (7, 13, FALSE, FALSE, 90, '27.05.2019', '13:00'),
-  (8, 14, TRUE, FALSE, 60, '27.05.2019', '14:00'),
-  (9, 8, TRUE, FALSE, 60, '27.05.2019', '15:00'),
-  (10, 9, TRUE, FALSE, 120, '27.05.2019', '16:00'),
-  (11, 11, TRUE, FALSE, 60, '27.05.2019', '17:00');
+  (1, 4, FALSE, TRUE, 90, '2019.05.27', '11:00'),
+  (2, 4, FALSE, FALSE, 90, '2019.05.28', '17:00'),
+  (3, 1, TRUE, TRUE, 60, '2019.06.27', '09:00'),
+  (4, 2, TRUE, TRUE, 60, '2019.06.27', '10:00'),
+  (5, 3, FALSE, FALSE, 60, '2019.06.27', '11:00'),
+  (6, 1, TRUE, FALSE, 60, '2019.06.27', '12:00'),
+  (7, 13, FALSE, FALSE, 90, '2019.05.27', '13:00'),
+  (8, 14, TRUE, FALSE, 60, '2019.05.27', '14:00'),
+  (9, 8, TRUE, FALSE, 60, '2019.05.27', '15:00'),
+  (10, 9, TRUE, FALSE, 120, '2019.05.27', '16:00'),
+  (11, 11, TRUE, FALSE, 60, '2019.05.27', '17:00');
 COMMIT;
 -- ====================================================
 -- Insertion Table : cpJoin
@@ -151,7 +151,7 @@ INSERT INTO cpJoin
     (2, 6),
     (11, 6),
     (2, 7),
-    (3, 8)
+    (3, 8),
     (10, 9),
     (9, 10),
     (1, 11);
@@ -161,19 +161,19 @@ COMMIT;
 -- ====================================================
 INSERT INTO cpIsMember
   VALUES
-    (1, 1, TRUE, '10.10.2022'),
-    (2, 1, TRUE, '10.10.2022'),
-    (3, 1, FALSE, '10.10.2022'),
-    (4, 1, FALSE, '10.10.2022'),
-    (5, 1, FALSE, '10.10.2022'),
-    (6, 2, FALSE, '10.10.2016'),
-    (7, 3, FALSE, '10.10.2022'),
-    (10, 3, FALSE, '10.10.2022'),
-    (8, 1, FALSE, '10.10.2022'),
-    (9, 2, FALSE, '10.10.2022'),
-    (11, 3, FALSE, '10.10.2022'),
-    (12, 3, FALSE, '10.10.2022'),
-    (13, 3, FALSE, '10.10.2018'),;
+    (1, 1, TRUE, '2022.10.10'),
+    (2, 1, TRUE, '2022.10.10'),
+    (3, 1, FALSE, '2022.10.10'),
+    (4, 1, FALSE, '2022.10.10'),
+    (5, 1, FALSE, '2022.10.10'),
+    (6, 2, FALSE, '2016.10.10'),
+    (7, 3, FALSE, '2022.10.10'),
+    (10, 3, FALSE, '2022.10.10'),
+    (8, 1, FALSE, '2022.10.10'),
+    (9, 2, FALSE, '2022.10.10'),
+    (11, 3, FALSE, '2022.10.10'),
+    (12, 3, FALSE, '2022.10.10'),
+    (13, 3, FALSE, '2018.10.10');
 COMMIT;
 
 -- SELECT * FROM cpUser;
