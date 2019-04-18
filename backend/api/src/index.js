@@ -39,7 +39,7 @@ const init = async () => {
 
   //Server start
   await server.start();
-  console.log(`Server running on %ss ${server.info.uri}/api`);
+  console.log(`Server running on ${server.info.uri}/api`);
 };
 
 process.on('unhandledRejection', (err) => {

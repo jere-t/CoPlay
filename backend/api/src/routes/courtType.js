@@ -8,7 +8,7 @@ const courtTypeSchema = require('../schemas/courtType/courtType');
 const courtType = [
   {
       method: 'GET',
-      path: '/courtType/all',
+      path: '/courttype/all',
       handler: getAllCourtTypes,
       options: {
           // API Documentation Generation
@@ -48,7 +48,7 @@ const courtType = [
   },
   {
       method: 'GET',
-      path: '/courtType/{id}',
+      path: '/courttype/{id}',
       handler: getCourtTypeById,
       options: {
           // JOI validation for the request

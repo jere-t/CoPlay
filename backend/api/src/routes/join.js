@@ -66,7 +66,7 @@ const join = [
                   responses: {
                       '200': {
                           'description': 'Success',
-                          'schema': Joi.array().items(isMemberSchema)
+                          'schema': Joi.array().items(joinSchema)
                       },
                       '400': {
                           'description': 'Bad Request',
@@ -122,7 +122,7 @@ const join = [
                   responses: {
                       '200': {
                           'description': 'Success',
-                          'schema': Joi.array().items(isMemberSchema)
+                          'schema': Joi.array().items(joinSchema)
                       },
                       '400': {
                           'description': 'Bad Request',

@@ -10,7 +10,7 @@ export const dbGetAllPlaygrounds = () => {
           .leftJoin('cpSport', 'cpPlayground.fkSport', '=', 'cpSport.idSport')
           .leftJoin('cpCourtType', 'cpPlayground.fkCourtType', '=', 'cpCourtType.idCourtType')
           .options({ nestTables: true })
-          .select().orderBy('nameCountry').orderBy('nameClub');
+          .select().orderBy('nameSport').orderBy('nameClub');
 };
  //Querry to get a playground from Playground table
 export const dbGetPlaygroundById = (id) => {

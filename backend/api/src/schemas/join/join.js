@@ -22,6 +22,6 @@ module.exports = Joi.object().keys(
         isPrivate: Joi.boolean(),
         duration: Joi.number().integer(),
         startDate: Joi.date().format('YYYY-MM-DD'),
-        startTime: Joi..date().format('HH:mm'),
+        startTime: Joi.date().format('HH:mm'),
       }),
     });

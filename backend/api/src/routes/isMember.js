@@ -8,7 +8,7 @@ const isMemberSchema = require('../schemas/isMember/isMember');
 const isMember = [
   {
       method: 'GET',
-      path: '/isMember/all',
+      path: '/ismember/all',
       handler: getAllIsMembers,
       options: {
           // API Documentation Generation
@@ -48,7 +48,7 @@ const isMember = [
   },
   {
       method: 'GET',
-      path: '/isMember/user/{id}',
+      path: '/ismember/user/{id}',
       handler: getAllIsMembersByIdUser,
       options: {
           // JOI validation for the request
@@ -104,7 +104,7 @@ const isMember = [
   },
   {
       method: 'GET',
-      path: '/isMember/club/{id}',
+      path: '/ismember/club/{id}',
       handler: getAllIsMembersByIdClub,
       options: {
           // JOI validation for the request

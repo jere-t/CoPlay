@@ -1,5 +1,5 @@
 // handlers/join.js
-import { dbGetAllJoins, dbGetJoinById } from '../models/join';
+import { dbGetAllJoins, dbGetAllJoinsByIdUser, dbGetAllJoinsByIdGame } from '../models/join';
 
 //Get all joins
 export const getAllJoins = (request, reply) => {
@@ -62,10 +62,10 @@ export const getAllJoinsByIdUser = (request, reply) => {
     });
 }
 
-//Get all joins by IdClub
-export const getAllJoinsByIdClub = (request, reply) => {
+//Get all joins by IdGame
+export const getAllJoinsByIdGame = (request, reply) => {
     let id = parseInt(request.params.id);
-     return dbGetAllJoinsByIdClub(id).then(data => {
+     return dbGetAllJoinsByIdGame(id).then(data => {
         if (data == null) {
             return reply.response(JSON.stringify(
                 {
