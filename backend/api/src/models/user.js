@@ -17,6 +17,6 @@ export const dbUpdateUser = (req, id) => {
   console.log(req);
     console.log(knex.update(req).into('cpUser').where('idUser', id) );
     return knex.update(req).into('cpUser').where('idUser', id);
-    console.log("=========== = = = = = = == == = = =  =");
+    console.log("========= = = = = = = = = == == = = =  =");
 
 }
