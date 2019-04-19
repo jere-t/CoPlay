@@ -1,8 +1,11 @@
 // routes/game.js
 
 //routes for table game
-import { getAllGames, getGameById } from '../handlers/game';
-const Joi = require('joi');
+import { getAllGames, getGameById, getAllGamesByAdvanceSearch } from '../handlers/game';
+//Joi with date extension
+const BaseJoi = require('joi');
+const Extension = require('joi-date-extensions');
+const Joi = BaseJoi.extend(Extension);
 const gameSchema = require('../schemas/game/game');
 
 const game = [
@@ -84,6 +87,63 @@ const game = [
                               error: Joi.object({
                                   error_type: 'DATABASE_REQUIREMENTS',
                                   error_message: 'id doesn\'t exist'
+                              }),
+                          })
+                      },
+                      '500': {
+                          'description': 'Internal server error',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'SERVER_ERROR',
+                                  error_message: 'Unspecified_server_error',
+                                  inner_error: '<ERROR_MESSAGE>'
+                              }),
+                          })
+                      }
+                  }
+              }
+          },
+      }
+  },
+  {
+      method: 'GET',
+      path: '/game/advance/{date}&{idPg}',
+      handler: getAllGamesByAdvanceSearch,
+      options: {
+          // JOI validation for the request
+          validate: {
+              params: {
+                  date: Joi.date().format('YYYY-MM-DD'),
+                  idPg: Joi.number().integer()
+              }
+          },
+          // API Documentation Generation
+          tags: ['api'],
+          description: 'Get the list of all games with a advance search ',
+          plugins: {
+              'hapi-swagger': {
+                  // description of all possible responses provided by the API with their HTTP code
+                  responses: {
+                      '200': {
+                          'description': 'Success',
+                          'schema': Joi.array().items(gameSchema)
+                      },
+                      '400': {
+                          'description': 'Bad Request',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  statusCode: '400',
+                                  error: 'Bad Request',
+                                  message: 'Invalid request params input'
+                              }),
+                          })
+                      },
+                      '404': {
+                          'description': 'Not Found',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'DATABASE_REQUIREMENTS',
+                                  error_message: 'No existing data'
                               }),
                           })
                       },
