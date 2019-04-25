@@ -11,3 +11,11 @@ export const dbGetAllSports = () => {
 export const dbGetSportById = (id) => {
     return knex.from('cpSport').where('idSport', id).first();
 };
+
+//Querry to get all sports of a club
+export const dbGetSportsOfAClub = (idClub) => {
+   return knex.from('cpSport').distinct('nameSport')
+   .leftJoin('cpPlayground', 'cpPlayground.fkSport', '=', 'cpSport.idSport')
+   .options({ nestTables: true })
+   .where({ idClub: idClub }).select('idSport', 'nameSport').orderBy('nameSport');
+};

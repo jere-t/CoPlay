@@ -1,7 +1,7 @@
 // routes/sport.js
 
 //routes for table sport
-import { getAllSports, getSportById } from '../handlers/sport';
+import { getAllSports, getSportById, getSportsOfAClub } from '../handlers/sport';
 const Joi = require('joi');
 const sportSchema = require('../schemas/sport/sport');
 
@@ -84,6 +84,62 @@ const sport = [
                               error: Joi.object({
                                   error_type: 'DATABASE_REQUIREMENTS',
                                   error_message: 'id doesn\'t exist'
+                              }),
+                          })
+                      },
+                      '500': {
+                          'description': 'Internal server error',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'SERVER_ERROR',
+                                  error_message: 'Unspecified_server_error',
+                                  inner_error: '<ERROR_MESSAGE>'
+                              }),
+                          })
+                      }
+                  }
+              }
+          },
+      }
+  },
+  {
+      method: 'GET',
+      path: '/sport/club/{idClub}',
+      handler: getSportsOfAClub,
+      options: {
+          // JOI validation for the request
+          validate: {
+              params: {
+                  idClub: Joi.number().integer().required()
+              }
+          },
+          // API Documentation Generation
+          tags: ['api'],
+          description: 'Get the list of all sports with a specific idClub ',
+          plugins: {
+              'hapi-swagger': {
+                  // description of all possible responses provided by the API with their HTTP code
+                  responses: {
+                      '200': {
+                          'description': 'Success',
+                          'schema': Joi.array().items(sportSchema)
+                      },
+                      '400': {
+                          'description': 'Bad Request',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  statusCode: '400',
+                                  error: 'Bad Request',
+                                  message: 'Invalid request params input'
+                              }),
+                          })
+                      },
+                      '404': {
+                          'description': 'Not Found',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'DATABASE_REQUIREMENTS',
+                                  error_message: 'No existing data'
                               }),
                           })
                       },
