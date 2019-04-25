@@ -14,9 +14,8 @@ export const dbGetUserById = (id) => {
 
 //Update a user from cpUser table
 export const dbUpdateUser = (req, id) => {
-  console.log(req);
-    console.log(knex.update(req).into('cpUser').where('idUser', id) );
-    return knex.update(req).into('cpUser').where('idUser', id);
+  console.log(id + "====    ============"+req);
+    return knex.update(req).returning('*').into('cpUser').where('idUser', id);
     console.log("========= = = = = = = = = == == = = =  =");
 
 }

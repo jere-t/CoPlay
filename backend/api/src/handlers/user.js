@@ -64,8 +64,9 @@ export const getUserById = (request, reply) => {
 
 //Update user
 export const updateUser = (request, reply) => {
+
     let req = request.payload;
-    return dbUpdateUser(req, req.id).then(data => {
+    return dbUpdateUser(req, req.idUser).then(data => {
       return reply.response(data).code(200);
     }).catch((error) => {
       if (error.errno == 1054) {
@@ -79,6 +80,7 @@ export const updateUser = (request, reply) => {
              }
          )).code(409);
       } else {
+        console.log(error.body);
          return reply.response(JSON.stringify(
              {
                  "error": {
