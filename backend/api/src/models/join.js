@@ -28,3 +28,18 @@ export const dbGetAllJoinsByIdGame = (id) => {
         .options({ nestTables: true })
         .where('idGame', id).select().orderBy('startTime');
 };
+
+//add a Join from Join table
+export const dbAddJoin = (req) => {
+    return knex.insert(req).into('cpJoin');
+}
+
+//Update a Join from Join table
+export const dbUpdateJoin = (req, idUser, idGame) => {
+    return knex.update(req).into('cpJoin').where({fkUserJoin: idUser, fkClubJoin : idGame});
+}
+
+//delete a Join from Join table
+export const dbDeleteJoin = (idUser, idGame) => {
+    return knex('cpJoin').where({fkUserJoin: idUser, fkClubJoin : idGame}).del();
+};

@@ -1,5 +1,5 @@
 // handlers/game.js
-import { dbGetAllGames, dbGetGameById, dbGetAllGamesByAdvanceSearch} from '../models/game';
+import { dbGetAllGames, dbGetGameById, dbGetAllGamesByAdvanceSearch, dbAddGame, dbUpdateGame, dbDeleteGame } from '../models/game';
 
 //Get all games
 export const getAllGames = (request, reply) => {
@@ -67,6 +67,104 @@ export const getAllGamesByAdvanceSearch = (request, reply) => {
     let idPg = parseInt(request.params.idPg);
     console.log(date + " =======================================================");
      return dbGetAllGamesByAdvanceSearch(date, idPg).then(data => {
+        if (data == null) {
+            return reply.response(JSON.stringify(
+                {
+                    "error": {
+                        "error_type": "DATABASE_REQUIREMENTS",
+                        "error_message": "id doesn't exist!"
+                    }
+                }
+            )).code(404);
+        }
+        else {
+            return reply.response(data).code(200);
+        }
+    }).catch((error) => {
+        console.log(error);
+        return reply.response(JSON.stringify(
+            {
+                "error": {
+                    "error_type": "DATABASE_ERROR",
+                    "error_message": "Unspecified_server_error",
+                    "inner_error": error.body
+                }
+            }
+        )).code(500);
+    });
+}
+
+//Add a new game
+export const addGame = (request, reply) => {
+
+    let req = request.payload;
+
+    return dbAddGame(req).then(data => {
+        return reply.response(data).code(200);
+    }).catch((error) => {
+            console.log("================= error: " + error.toString());
+            console.log("error.sqlMessage: " + error.sqlMessage);
+            if (error.errno == 1054) {
+                return reply.response(JSON.stringify(
+                    {
+                        "error": {
+                            "error_type": "DATABASE_ERROR",
+                            "error_message": "Bad parameter name",
+                            "db_message": error.sqlMessage
+                        }
+                    }
+                )).code(409);
+            } else {
+                return reply.response(JSON.stringify(
+                    {
+                        "error": {
+                            "error_type": "DATABASE_ERROR",
+                            "error_message": "Unspecified_server_error",
+                            "inner_error": error.body
+                        }
+                    }
+                )).code(500);
+            }
+        });
+}
+
+//Update game
+export const updateGame = (request, reply) => {
+
+    let req = request.payload;
+    return dbUpdateGame(req, req.idGame).then(data => {
+      return reply.response(data).code(200);
+    }).catch((error) => {
+      if (error.errno == 1054) {
+         return reply.response(JSON.stringify(
+             {
+                 "error": {
+                     "error_type": "DATABASE_ERROR",
+                     "error_message": "Bad parameter name",
+                     "db_message": error.sqlMessage
+                 }
+             }
+         )).code(409);
+      } else {
+        console.log(error.body);
+         return reply.response(JSON.stringify(
+             {
+                 "error": {
+                     "error_type": "DATABASE_ERROR",
+                     "error_message": "Unspecified_server_error",
+                     "inner_error": error.body
+                 }
+             }
+         )).code(500);
+      }
+    });
+}
+
+//delete an game
+export const deleteGame = (request, reply) => {
+    let idGame = parseInt(request.params.idGame);
+
+    return dbDeleteGame(idGame).then(data => {
         if (data == null) {
             return reply.response(JSON.stringify(
                 {

@@ -1,12 +1,14 @@
 // routes/game.js
 
 //routes for table game
-import { getAllGames, getGameById, getAllGamesByAdvanceSearch } from '../handlers/game';
+import { getAllGames, getGameById, getAllGamesByAdvanceSearch, addGame, updateGame, deleteGame } from '../handlers/game';
 //Joi with date extension
 const BaseJoi = require('joi');
 const Extension = require('joi-date-extensions');
 const Joi = BaseJoi.extend(Extension);
 const gameSchema = require('../schemas/game/game');
+const addGameSchema = require('../schemas/game/add');
+const updateGameSchema = require('../schemas/game/update');
 
 const game = [
   {
@@ -144,6 +146,179 @@ const game = [
                               error: Joi.object({
                                   error_type: 'DATABASE_REQUIREMENTS',
                                   error_message: 'No existing data'
+                              }),
+                          })
+                      },
+                      '500': {
+                          'description': 'Internal server error',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'SERVER_ERROR',
+                                  error_message: 'Unspecified_server_error',
+                                  inner_error: '<ERROR_MESSAGE>'
+                              }),
+                          })
+                      }
+                  }
+              }
+          },
+      }
+  },
+  {
+      method: 'POST',
+      path: '/game',
+      handler: addGame,
+      options:{
+          validate:{
+              payload: addGameSchema,
+              //Show error for debug
+              failAction: (request, h, err) => {
+                  throw err;
+                  return;
+              }
+          },
+          description: 'Create a new game',
+          tags: ['api'], // ADD THIS TAG,
+          plugins: {
+              'hapi-swagger': {
+                  // describe here all possible responses provided by the API with their HTTP code
+                  responses: {
+                      '200': {
+                          'description': 'Success',
+                          'schema': Joi.array().items(Joi.number().integer())
+                      },
+                      '400': {
+                          'description': 'Bad Request',
+                          'schema': Joi.object({
+                              statusCode: 400,
+                              error: 'Bad Request',
+                              message: 'Invalid request params input'
+
+                          })
+                      },
+                      '409':{
+                          'description': 'Database error',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'DATABASE_ERROR',
+                                  error_message: 'Bad parameter name',
+                                  inner_error: '<ERROR_MESSAGE>'
+                              }),
+                          })
+                      },
+                      '500': {
+                          'description': 'Internal server error',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'SERVER_ERROR',
+                                  error_message: 'Unspecified_server_error',
+                                  inner_error: '<ERROR_MESSAGE>'
+                              }),
+                          })
+                      }
+                  }
+              }
+          },
+
+      }
+  },
+  {
+      method: 'PUT',
+      path: '/game',
+      handler: updateGame,
+      options:{
+          validate:{
+              payload: updateGameSchema,
+              //Show error for debug
+              failAction: (request, h, err) => {
+                  throw err;
+                  return;
+              }
+          },
+          // API Documentation Generation
+          tags: ['api'],
+          description: 'Update a game',
+          plugins: {
+              'hapi-swagger': {
+                  // description of all possible responses provided by the API with their HTTP code
+                  responses: {
+                      '200': {
+                          'description': 'Success',
+                          'schema': Joi.array().items(Joi.number().integer())
+                      },
+                      '400': {
+                          'description': 'Bad Request',
+                          'schema': Joi.object({
+                              statusCode: 400,
+                              error: 'Bad Request',
+                              message: 'Invalid request params input'
+
+                          })
+                      },
+                      '409':{
+                          'description': 'Database error',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'DATABASE_ERROR',
+                                  error_message: 'Bad parameter name',
+                                  inner_error: '<ERROR_MESSAGE>'
+                              }),
+                          })
+                      },
+                      '500': {
+                          'description': 'Internal server error',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'SERVER_ERROR',
+                                  error_message: 'Unspecified_server_error',
+                                  inner_error: '<ERROR_MESSAGE>'
+                              }),
+                          })
+                      }
+                  }
+              }
+          },
+
+      }
+  },
+  {
+      method: 'DELETE',
+      path: '/game/{id}',
+      handler: deleteGame,
+      options: {
+          // JOI validation for the request
+          validate: {
+              params: {
+                  idGame: Joi.number().integer().required()
+              }
+          },
+          // API Documentation Generation
+          tags: ['api'],  // REQUIRED
+          description: 'Delete a specific game',
+          plugins: {
+              'hapi-swagger': {
+                  // describe here all possible responses provided by the API with their HTTP code
+                  responses: {
+                      '200': {
+                          'description': 'Success',
+                          'schema': gameSchema
+                      },
+                      '400': {
+                          'description': 'Bad Request',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  statusCode: '400',
+                                  error: 'Bad Request',
+                                  message: 'Invalid request params input'
+                              }),
+                          })
+                      },
+                      '404': {
+                          'description': 'Not Found',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'DATABASE_REQUIREMENTS',
+                                  error_message: 'id doesn\'t exist'
                               }),
                           })
                       },

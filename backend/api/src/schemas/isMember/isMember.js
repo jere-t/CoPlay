@@ -13,7 +13,7 @@ module.exports = Joi.object().keys(
         firstname: Joi.string(),
         lastname: Joi.string(),
         email: Joi.string().email(),
-        userBirthday: Joi.date().format('DD.MM.YYYY'),
+        userBirthday: Joi.date().format('YYYY-MM-DD'),
       }),
       Club: Joi.object().keys({
         idClub: Joi.number().integer(),
@@ -21,6 +21,6 @@ module.exports = Joi.object().keys(
         address: Joi.string(),
         fkCity: Joi.number().integer(),
       }),
-      endSubsctiption: Joi.date().format('DD.MM.YYYY'),
+      endSubsctiption: Joi.date().format('YYYY-MM-DD'),
       isAdmin: Joi.boolean(),
     });

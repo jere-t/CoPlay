@@ -24,3 +24,18 @@ export const dbGetAllGamesByAdvanceSearch = (date, idPlayground) => {
          .options({ nestTables: true })
          .where({ startDate: date, fkPlayground: idPlayground }).select().orderBy('startTime');
 };
+
+//add a game from cpGame table
+export const dbAddGame = (req) => {
+    return knex.insert(req).into('cpGame');
+}
+
+//Update a game from cpGame table
+export const dbUpdateGame = (req, id) => {
+    return knex.update(req).into('cpGame').where('idGame', id);
+}
+
+//delete a game from cpGame table
+export const dbDeleteGame = (id) => {
+    return knex('cpGame').where('idGame', id).del();
+};

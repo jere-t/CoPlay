@@ -12,5 +12,5 @@ module.exports = Joi.object().keys(
         firstname: Joi.string(),
         lastname: Joi.string(),
         email: Joi.string().email(),
-        userBirthday: Joi.date().format('DD.MM.YYYY'),
+        userBirthday: Joi.date().format('YYYY-MM-DD'),
     });
