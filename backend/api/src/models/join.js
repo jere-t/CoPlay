@@ -34,12 +34,22 @@ export const dbAddJoin = (req) => {
     return knex.insert(req).into('cpJoin');
 }
 
+//get nb player from a Join
+export const dbGetNbPlayer = (req) => {
+    return knex('cpJoin').count('fkUserJoin as nbUser').where('fkGameJoin', req.fkGameJoin).first().select();
+}
+
+//get single from Join table
+export const dbGetSingle = (req) => {
+    return knex.from('cpGame').where('idGame', req.fkGameJoin).first().select('isSingle');
+}
+
 //Update a Join from Join table
 export const dbUpdateJoin = (req, idUser, idGame) => {
-    return knex.update(req).into('cpJoin').where({fkUserJoin: idUser, fkClubJoin : idGame});
+    return knex.update(req).into('cpJoin').where({fkUserJoin: idUser, fkGameJoin : idGame});
 }
 
 //delete a Join from Join table
 export const dbDeleteJoin = (idUser, idGame) => {
-    return knex('cpJoin').where({fkUserJoin: idUser, fkClubJoin : idGame}).del();
+    return knex('cpJoin').where({fkUserJoin: idUser, fkGameJoin : idGame}).del();
 };

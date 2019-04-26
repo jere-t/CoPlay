@@ -1,5 +1,5 @@
 // handlers/game.js
-import { dbGetAllGames, dbGetGameById, dbGetAllGamesByAdvanceSearch, dbAddGame, dbUpdateGame, dbDeleteGame } from '../models/game';
+import { dbGetAllGames, dbGetGameById, dbGetAllGamesByAdvanceSearch, dbAddGame, dbCheckAvailable, dbUpdateGame, dbDeleteGame } from '../models/game';
 
 //Get all games
 export const getAllGames = (request, reply) => {
@@ -65,7 +65,6 @@ export const getGameById = (request, reply) => {
 export const getAllGamesByAdvanceSearch = (request, reply) => {
     let date = request.params.date;
     let idPg = parseInt(request.params.idPg);
-    console.log(date + " =======================================================");
      return dbGetAllGamesByAdvanceSearch(date, idPg).then(data => {
         if (data == null) {
             return reply.response(JSON.stringify(
@@ -98,9 +97,45 @@ export const getAllGamesByAdvanceSearch = (request, reply) => {
 export const addGame = (request, reply) => {
 
     let req = request.payload;
-
-    return dbAddGame(req).then(data => {
-        return reply.response(data).code(200);
+    return dbCheckAvailable(req).then(available => {
+      if (available.existing > 0) {
+        return reply.response(JSON.stringify(
+          {
+              "error": {
+                  "error_type": "DATABASE_ERROR",
+                  "error_message": "a game is already book at the same time for this playground",
+                  "inner_error": error.body
+              }
+          }
+        )).code(500);
+      }
+      return dbAddGame(req).then(data => {
+          return reply.response(data).code(200);
+      }).catch((error) => {
+              console.log("================= error: " + error.toString());
+              console.log("error.sqlMessage: " + error.sqlMessage);
+              if (error.errno == 1054) {
+                  return reply.response(JSON.stringify(
+                      {
+                          "error": {
+                              "error_type": "DATABASE_ERROR",
+                              "error_message": "Bad parameter name",
+                              "db_message": error.sqlMessage
+                          }
+                      }
+                  )).code(409);
+              } else {
+                  return reply.response(JSON.stringify(
+                      {
+                          "error": {
+                              "error_type": "DATABASE_ERROR",
+                              "error_message": "Unspecified_server_error",
+                              "inner_error": error.body
+                          }
+                      }
+                  )).code(500);
+              }
+          })
     }).catch((error) => {
             console.log("================= error: " + error.toString());
             console.log("error.sqlMessage: " + error.sqlMessage);

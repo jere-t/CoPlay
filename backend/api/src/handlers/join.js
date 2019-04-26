@@ -1,5 +1,5 @@
 // handlers/join.js
-import { dbGetAllJoins, dbGetAllJoinsByIdUser, dbGetAllJoinsByIdGame, dbAddJoin, dbUpdateJoin, dbDeleteJoin } from '../models/join';
+import { dbGetAllJoins, dbGetAllJoinsByIdUser, dbGetAllJoinsByIdGame, dbAddJoin, dbUpdateJoin, dbDeleteJoin, dbGetNbPlayer, dbGetSingle } from '../models/join';
 
 //Get all joins
 export const getAllJoins = (request, reply) => {
@@ -97,9 +97,74 @@ export const getAllJoinsByIdGame = (request, reply) => {
 export const addJoin = (request, reply) => {
 
     let req = request.payload;
-
-    return dbAddJoin(req).then(data => {
-        return reply.response(data).code(200);
+    return dbGetNbPlayer(req).then(nbPlayer => {
+      return dbGetSingle(req).then(single => {
+        let nbAllowed = single.isSingle ? 2:4;
+        console.log(nbPlayer.nbUser +" < "+nbAllowed);
+        if (nbPlayer.nbUser < nbAllowed) {
+          return dbAddJoin(req).then(data => {
+              return reply.response(data).code(200);
+          }).catch((error) => {
+                  console.log("================= error: " + error.toString());
+                  console.log("error.sqlMessage: " + error.sqlMessage);
+                  if (error.errno == 1054) {
+                      return reply.response(JSON.stringify(
+                          {
+                              "error": {
+                                  "error_type": "DATABASE_ERROR",
+                                  "error_message": "Bad parameter name",
+                                  "db_message": error.sqlMessage
+                              }
+                          }
+                      )).code(409);
+                  } else {
+                      return reply.response(JSON.stringify(
+                          {
+                              "error": {
+                                  "error_type": "DATABASE_ERROR",
+                                  "error_message": "Unspecified_server_error",
+                                  "inner_error": error.body
+                              }
+                          }
+                      )).code(500);
+                  }
+              });
+        } else {
+          return reply.response(JSON.stringify(
+              {
+                  "error": {
+                      "error_type": "DATABASE_ERROR",
+                      "error_message": "to many foreign keys",
+                      "inner_error": "to many foreign keys for this game"
+                  }
+              }
+          )).code(500);
+        }
+      }).catch((error) => {
+              console.log("================= error: " + error.toString());
+              console.log("error.sqlMessage: " + error.sqlMessage);
+              if (error.errno == 1054) {
+                  return reply.response(JSON.stringify(
+                      {
+                          "error": {
+                              "error_type": "DATABASE_ERROR",
+                              "error_message": "Bad parameter name",
+                              "db_message": error.sqlMessage
+                          }
+                      }
+                  )).code(409);
+              } else {
+                  return reply.response(JSON.stringify(
+                      {
+                          "error": {
+                              "error_type": "DATABASE_ERROR",
+                              "error_message": "Unspecified_server_error",
+                              "inner_error": error.body
+                          }
+                      }
+                  )).code(500);
+              }
+      });
     }).catch((error) => {
             console.log("================= error: " + error.toString());
             console.log("error.sqlMessage: " + error.sqlMessage);
@@ -124,7 +189,7 @@ export const addJoin = (request, reply) => {
                     }
                 )).code(500);
             }
-        });
+    });
 }
 
 //Update Join

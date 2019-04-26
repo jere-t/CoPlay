@@ -30,6 +30,10 @@ export const dbAddGame = (req) => {
     return knex.insert(req).into('cpGame');
 }
 
+export const dbCheckAvailable = (req) => {
+    return knex.from('cpGame').count('idGame as existing').where({fkPlayground: req.fkPlayground, startDate: req.startDate, startTime: req.startTime}).first().select();
+}
+
 //Update a game from cpGame table
 export const dbUpdateGame = (req, id) => {
     return knex.update(req).into('cpGame').where('idGame', id);
