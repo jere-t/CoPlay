@@ -11,7 +11,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 class CreateGame extends Component {
   state = {
-    //only and all the field of game
+    //only and all the field of gamei
     fkPlayground: null,
 		isSingle: true,
 		isPrivate: true,
