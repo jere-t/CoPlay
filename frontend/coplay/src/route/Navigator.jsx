@@ -9,9 +9,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import Customers from '../views/customers';
-import Trainings from '../views/trainings';
-import Calendar from '../views/calendar';
+import Login from '../views/login';
+import Booking from '../views/booking';
+import Connect from '../views/connect';
+import Account from '../views/account';
+import Admin from '../views/admin';
 
 class Navigator extends React.Component {
 
@@ -20,28 +22,38 @@ class Navigator extends React.Component {
 
     return(
       <BrowserRouter>
+        
         <div>
           <AppBar position="sticky" hide="true">
             <Toolbar>
-              <Typography variant="h6" color="inherit" className={classes.grow}>
-                Personal Trainer Company
+              <h5 className="grey-text text-darken-3">Test</h5>
+              <Typography variant="h6" color="inherit" className={classes.grow} noWrap>
+                Connect & Play
               </Typography>
-              <Button disableRipple={true} component={Link} to="/" >
-                Customers
+              <Button disableRipple={true} component={Link} to="/booking" >
+                Booking
               </Button>
-              <Button disableRipple={true} component={Link} to="/trainings">
-                Trainings
+              <Button disableRipple={true} component={Link} to="/connect">
+                Connect
               </Button>
-              <Button disableRipple={true} component={Link} to="/calendar">
-                Calendar
+              <Button disableRipple={true} component={Link} to="/account">
+                Account
+              </Button>
+              <Button disableRipple={false} component={Link} to="/admin">
+                Admin
+              </Button>
+              <Button disableRipple={false} component={Link} to="/">
+                Logout
               </Button>
             </Toolbar>
           </AppBar>
           <Switch>
-            <Route exact path="/" component={Customers}/>
-            <Route path="/trainings" component={Trainings}/>
-            <Route path="/calendar" component={Calendar}/>
-            <Route render={() => <h1>Page not found</h1>}/>
+            <Route exact path="/" component={Login}/>
+            <Route path="/booking" component={Booking}/>
+            <Route path="/connect" component={Connect}/>
+            <Route path="/account" component={Account}/>
+            <Route path="/admin" component={Admin}/>
+            <Route render={() => <h1>Error 404: Page not found</h1>}/>
           </Switch>
         </div>
       </ BrowserRouter>
