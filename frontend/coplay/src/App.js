@@ -1,3 +1,5 @@
+// App.js
+
 import React, { Component } from 'react';
 import Navigator from './route/Navigator'
 

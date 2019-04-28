@@ -22,11 +22,10 @@ class Navigator extends React.Component {
 
     return(
       <BrowserRouter>
-        
+
         <div>
           <AppBar position="sticky" hide="true">
             <Toolbar>
-              <h5 className="grey-text text-darken-3">Test</h5>
               <Typography variant="h6" color="inherit" className={classes.grow} noWrap>
                 Connect & Play
               </Typography>

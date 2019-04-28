@@ -9,13 +9,11 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import IconButton from '@material-ui/core/IconButton';
-import InputAdornment from '@material-ui/core/InputAdornment';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Checkbox from '@material-ui/core/Checkbox';
 
+import PasswordInput from '../PasswordInput';
 
 class SignIn extends Component {
   state = {
@@ -26,7 +24,7 @@ class SignIn extends Component {
   };
 
   handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value },() => console.log(this.state));
   };
   handleChangeMemorise = () => {
     this.setState(state => ({ rememberMe: !state.rememberMe }));
@@ -53,32 +51,15 @@ class SignIn extends Component {
               <InputLabel htmlFor="email">Email</InputLabel>
               <Input
                 id="email"
+                name="email"
                 value={this.state.email}
-                onChange={this.handleChange('email')}
+                onChange={this.handleChange}
                 autoFocus
                 autoComplete="email"
               />
             </FormControl>
-            <FormControl required fullWidth className={classes.margin}>
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <Input
-                id="password"
-                type={this.state.showPassword ? 'text' : 'password'}
-                value={this.state.password}
-                onChange={this.handleChange('password')}
-                autoComplete="current-password"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="Toggle password visibility"
-                      onClick={this.handleClickShowPassword}
-                    >
-                      {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
+            <PasswordInput name="password" password={this.state.password} handleChange={this.handleChange} />
+
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"

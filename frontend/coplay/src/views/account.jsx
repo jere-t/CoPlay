@@ -1,14 +1,14 @@
 // views/account.jsx
 
 import React, { Component } from 'react';
-//import CustomerList from "../components/CustomerList";
+import Account from "../components/account/Account";
 
 export default class CustomerListFullView extends Component {
 
   render() {
     return (
       <div>
-
+        <Account />
       </div>
     );
   }
