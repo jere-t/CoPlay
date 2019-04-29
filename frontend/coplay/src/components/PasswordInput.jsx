@@ -13,9 +13,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 
 class PasswordInput extends Component {
-  constructor(props) {
-    super(props);
-  }
   state = {
     showPassword: false,
   };

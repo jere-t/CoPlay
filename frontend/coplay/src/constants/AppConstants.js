@@ -1,7 +1,7 @@
 // constants/AppConstants.js
 
 // link api
-const apiRoot = "http://localhost:3000/api";
+const apiRoot = "http://localhost:3001/api";
 
 export default apiRoot;
 

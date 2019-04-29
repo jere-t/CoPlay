@@ -8,7 +8,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -23,7 +22,7 @@ class SignIn extends Component {
     showPassword: false,
   };
 
-  handleChange = prop => event => {
+  handleChange = props => event => {
     this.setState({ [event.target.name]: event.target.value },() => console.log(this.state));
   };
   handleChangeMemorise = () => {
@@ -53,7 +52,7 @@ class SignIn extends Component {
                 id="email"
                 name="email"
                 value={this.state.email}
-                onChange={this.handleChange}
+                onChange={this.handleChange()}
                 autoFocus
                 autoComplete="email"
               />

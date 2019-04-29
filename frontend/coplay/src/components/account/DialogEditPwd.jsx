@@ -3,12 +3,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -36,7 +31,7 @@ class DialogEditPwd extends Component {
   };
 
   checkOldPassword = (pwd) => {
-    if (pwd == "1234") {
+    if (pwd === "1234") {
       return true;
     } else {
       this.setState({errorMsg : 'The old password are not correct'});
@@ -44,7 +39,7 @@ class DialogEditPwd extends Component {
     }
   };
   checkNewPassword = (pwd, pwdRpt) => {
-    if (pwd == pwdRpt) {
+    if (pwd === pwdRpt) {
       if (pwd.length > 6) { return true; } else {
         this.setState({errorMsg : 'The new password need to have 6 characters at least'});
         return false;
@@ -54,6 +49,7 @@ class DialogEditPwd extends Component {
       return false;
     }
   };
+
   savePassword = (pwd) => {
 
   };
