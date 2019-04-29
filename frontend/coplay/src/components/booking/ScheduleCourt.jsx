@@ -7,13 +7,18 @@ import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import dates from './dates'
+import dates from './dates';
+import CreateGame from '../game/CreateGame';
+
 
 
 class ScheduleCourt extends Component {
   state = {
     date: moment().format('YYYY-MM-DD'),
     sports: [{idSport:1, nameSport:"Tennis"},{idSport:2, nameSport:"Padel"},{idSport:3, nameSport:"Squash"}],
+    open: false,
+    fkPlayground: 0,
+    time: moment().format('HH:mm'),
   };
 
   handleChange = (event) => {
@@ -21,33 +26,24 @@ class ScheduleCourt extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSelect = (event) => {
-    console.log(event.resourceId);
-    console.log(event.start);
-    console.log(event.end);
-    console.log(event.slot);
-
+  handleSelectEvent = (event) => {
+    console.log(event);
+    alert(event.title + " start: " +event.start);
   };
 
-  handleSelectt = ({ start, end }) => {
-  const title = window.prompt('New Event name')
-  if (title)
-    this.setState({
-      events: [
-        ...this.state.events,
-        {
-          start,
-          end,
-          title,
-        },
-      ],
-    })
-}
+  handleSelect = (event) => {
+    this.setState({time: moment(event.start).format('HH:mm'), fkPlayground: event.resourceId, open: true, });
+    console.log(this.state);
+    console.log(moment(event.start).format('HH:mm'));
+  };
+
+  handleClose = () => {
+    this.setState({open: false,})
+  };
 
   render() {
     //console.log(moment("2019-11-25T10:00:00.000Z").format('HH:mm'));
     const { classes } = this.props;
-    const timeSlot = 30;
     const localizer = BigCalendar.momentLocalizer(moment)
     const courtResourceMap = [
       { idPg: 1, nameCourt: 'Court' },
@@ -85,28 +81,27 @@ class ScheduleCourt extends Component {
 
         </form>
         <div>
-
-            <BigCalendar
-                selectable
-                onSelectEvent={event => alert(event.title)}
-                onSelectSlot={this.handleSelect}
-                localizer={localizer}
-                events={myEventsList}
-                defaultView='day'
-                views={['day']}
-                style={{ height: '70vh' }}
-                getNow={() => moment(this.state.date).toDate()}
-                toolbar={false}
-                resources={courtResourceMap}
-                resourceIdAccessor="idPg"
-                resourceTitleAccessor="nameCourt"
-                step={60}
-                timeslots={1}
-                min={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), 25201, 'seconds')}
-                max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -7200, 'seconds')}
-                formats={formats}
-            />
-
+          <BigCalendar
+              selectable
+              onSelectEvent={this.handleSelectEvent}
+              onSelectSlot={this.handleSelectSlot}
+              localizer={localizer}
+              events={myEventsList}
+              defaultView='day'
+              views={['day']}
+              style={{ height: '70vh' }}
+              getNow={() => moment(this.state.date).toDate()}
+              toolbar={false}
+              resources={courtResourceMap}
+              resourceIdAccessor="idPg"
+              resourceTitleAccessor="nameCourt"
+              step={60}
+              timeslots={1}
+              min={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), 25201, 'seconds')}
+              max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -7200, 'seconds')}
+              formats={formats}
+          />
+        <CreateGame open={this.state.open} handleClose={this.handleClose} date={this.state.date} time={this.state.time} idPg={this.state.fkPlayground} />
         </div>
 
     </div>

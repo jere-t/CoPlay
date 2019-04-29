@@ -5,24 +5,41 @@ import { connect } from 'react-redux';
 import { createGame } from '../../store/actions/game'
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import Radio from '@material-ui/core/Radio';
+import Button from '@material-ui/core/Button';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import ListPlayers from './ListPlayers';
 
 class CreateGame extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      //only and all the field of gamei
-      fkPlayground: this.props.idPg,
-  		isSingle: true,
-  		isPrivate: true,
-  		duration: 60,
-  		startDate: this.props.date,
-  		startTime: this.props.time,
-    };
-  }
-
-  handleChange = props => event => {
-    this.setState({ [event.target.name]: event.target.value });
+  state = {
+    fkPlayground: this.props.idPg,
+		isSingle: "1",
+		isPrivate: "1",
+		duration: 60,
+		startDate: this.props.date,
+		startTime: this.props.time,
+    username1: '',
+    username2: '',
+    username3: '',
+    username4: '',
+    value: 'female',
   };
+
+  handleChange = (event) => {
+
+    this.setState({ [event.target.name]: event.target.value }, console.log(this.state));
+  };
+
 
   handleCreate = () => {
 
@@ -39,44 +56,47 @@ class CreateGame extends Component {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Create a game</DialogTitle>
-        <DialogContent>
+        <DialogContent className={classes.root}>
           <DialogContentText className={classes.error}>
             {this.state.errorMsg}
           </DialogContentText>
-          <Typography variant="h4" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             Reservation:  {this.props.sport} - Court {this.props.court} - {this.props.date} - {this.props.time}
           </Typography>
-          <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="isSingle"></FormLabel>
-            <RadioGroup
-              name="isSingle"
-              className={classes.group}
-              value={this.state.isSingle}
-              onChange={this.handleChange()}
-            >
-              <FormControlLabel value={true} control={<Radio />} label="2 players" />
-              <FormControlLabel value={false} control={<Radio />} label="4 players" />
-            </RadioGroup>
-          </FormControl>
-          <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="isPrivate"></FormLabel>
+          <FormControl className={classes.formControl}>
+            <FormLabel ></FormLabel>
             <RadioGroup
               name="isPrivate"
               className={classes.group}
               value={this.state.isPrivate}
-              onChange={this.handleChange()}
+              onChange={this.handleChange}
+              row
             >
-              <FormControlLabel value={true} control={<Radio />} label="private game" />
-              <FormControlLabel value={false} control={<Radio />} label="public game (I am looking for player(s))" />
+              <FormControlLabel value="1" control={<Radio />} label="private game" />
+              <FormControlLabel value="0" control={<Radio />} label="public game (I am looking for player(s))" />
             </RadioGroup>
           </FormControl>
-          {this.state.isPrivate?<ListPlayers
+          <FormControl className={classes.formControl}>
+            <FormLabel></FormLabel>
+            <RadioGroup
+              name="isSingle"
+              className={classes.group}
+              value={this.state.isSingle}
+              onChange={this.handleChange}
+              row
+            >
+              <FormControlLabel value="1" control={<Radio />} label="2 players" />
+              <FormControlLabel value="0" control={<Radio />} label="4 players" />
+            </RadioGroup>
+          </FormControl>
+          {this.state.isPrivate==="1"?<ListPlayers
                                     username1={this.state.username1}
                                     username2={this.state.username2}
-                                    username1={this.state.username1}
-                                    username1={this.state.username1}
+                                    username3={this.state.username3}
+                                    username4={this.state.username4}
                                     isSingle={this.state.isSingle}
                                     handleChange={this.handleChange}
+                                    classes={classes}
                                 />:""}
         </DialogContent>
         <DialogActions>
@@ -92,16 +112,21 @@ class CreateGame extends Component {
   }
 }
 
-  const styles = theme => ({
-  margin: {
-    margin: "normal",
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  formControl: {
+
+  },
+  group: {
+
   },
   error: {
     color: "red",
   },
-  });
-
-}
+});
 
 CreateGame.propTypes = {
   classes: PropTypes.object.isRequired,
