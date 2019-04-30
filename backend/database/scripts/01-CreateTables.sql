@@ -124,6 +124,7 @@ CREATE TABLE cpGame (
 		duration   			INTEGER			 		NOT NULL,
 		startDate				DATE 						NOT NULL,
 		startTime       TIME		 				NOT NULL,
+		description			TEXT,						
 
 		CONSTRAINT PK_cpGame PRIMARY KEY (idGame),
 

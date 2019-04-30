@@ -17,13 +17,15 @@ export const dbGetGameById = (id) => {
           .options({ nestTables: true })
           .where('idGame', id).first().select();
 };
-//Querry to get games from Game table with a date and a pg
-export const dbGetAllGamesByAdvanceSearch = (date, idPlayground) => {
+//Querry to get games from Game table with a date, club and a sport
+export const dbGetAllGamesByAdvanceSearch = (date, idClub, idSport) => {
    return knex.from('cpGame')
          .leftJoin('cpPlayground', 'cpGame.fkPlayground', '=', 'cpPlayground.idPg')
          .options({ nestTables: true })
-         .where({ startDate: date, fkPlayground: idPlayground }).select().orderBy('startTime');
+         .where({ startDate: date, fkClub: idClub, fkSport: idSport }).select().orderBy('startTime');
 };
+
+
 
 //add a game from cpGame table
 export const dbAddGame = (req) => {
