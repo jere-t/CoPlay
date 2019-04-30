@@ -42,7 +42,7 @@ class CreateGame extends Component {
 
 
   handleCreate = () => {
-
+    e.preventDefault();
     //get usernames and need check pruvate
     this.props.createGame(this.state)
   }

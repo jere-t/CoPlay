@@ -8,7 +8,6 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 
 const ListPlayers = (props) => {
-  //const { classes } = this.props;
 
   const { username1, username2, username3, username4, isSingle, handleChange, classes } = props;
   const doublePlayer = (

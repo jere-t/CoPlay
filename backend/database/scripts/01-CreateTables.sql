@@ -119,19 +119,25 @@ CREATE TABLE cpPlayground (
 CREATE TABLE cpGame (
 		idGame          INTEGER					NOT NULL AUTO_INCREMENT,
 		fkPlayground		INTEGER 				NOT NULL,
+		fkUserCreator		INTEGER					NOT NULL,
 		isSingle				BOOLEAN         NOT NULL,
 		isPrivate				BOOLEAN         NOT NULL,
 		duration   			INTEGER			 		NOT NULL,
 		startDate				DATE 						NOT NULL,
 		startTime       TIME		 				NOT NULL,
-		description			TEXT,						
+		description			TEXT,
 
 		CONSTRAINT PK_cpGame PRIMARY KEY (idGame),
 
 		CONSTRAINT FK_cpGame_cpPlayground FOREIGN KEY (fkPlayground)
 	    REFERENCES cpPlayground(idPg)
 	    ON DELETE CASCADE
-	    ON UPDATE NO ACTION
+	    ON UPDATE NO ACTION,
+
+		CONSTRAINT FK_cpGame_cpUser FOREIGN KEY (fkUserCreator)
+			REFERENCES cpUser(idUser)
+			ON DELETE CASCADE
+			ON UPDATE NO ACTION
 );
 -- ====================================================
 -- Table : cpJoin

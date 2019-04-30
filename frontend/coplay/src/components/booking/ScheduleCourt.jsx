@@ -22,16 +22,14 @@ class ScheduleCourt extends Component {
   };
 
   handleChange = (event) => {
-    console.log(this.state);
     this.setState({ [event.target.name]: event.target.value });
   };
 
   handleSelectEvent = (event) => {
-    console.log(event);
     alert(event.title + " start: " +event.start);
   };
 
-  handleSelect = (event) => {
+  handleSelectSlot = (event) => {
     this.setState({time: moment(event.start).format('HH:mm'), fkPlayground: event.resourceId, open: true, });
     console.log(this.state);
     console.log(moment(event.start).format('HH:mm'));

@@ -119,19 +119,19 @@ COMMIT;
 -- Insert Table : cpGame
 -- ====================================================
 INSERT INTO cpGame
-  (idGame, fkPlayground, isSingle, isPrivate, duration, startDate, startTime)
+  (idGame, fkPlayground, fkUserCreator, isSingle, isPrivate, duration, startDate, startTime, description)
     VALUES
-  (1, 4, FALSE, TRUE, 90, '2019.05.27', '11:00'),
-  (2, 4, FALSE, FALSE, 90, '2019.05.28', '17:00'),
-  (3, 1, TRUE, TRUE, 60, '2019.06.27', '09:00'),
-  (4, 2, TRUE, TRUE, 60, '2019.06.27', '10:00'),
-  (5, 3, FALSE, FALSE, 60, '2019.06.27', '11:00'),
-  (6, 1, TRUE, FALSE, 60, '2019.06.27', '12:00'),
-  (7, 13, FALSE, FALSE, 90, '2019.05.27', '13:00'),
-  (8, 14, TRUE, FALSE, 60, '2019.05.27', '14:00'),
-  (9, 8, TRUE, FALSE, 60, '2019.05.27', '15:00'),
-  (10, 9, TRUE, FALSE, 120, '2019.05.27', '16:00'),
-  (11, 11, TRUE, FALSE, 60, '2019.05.27', '17:00');
+  (1, 4, 2, FALSE, TRUE, 90, '2019.05.27', '11:00', null),
+  (2, 4, 2, FALSE, FALSE, 90, '2019.05.28', '17:00', "Easy"),
+  (3, 1, 2, TRUE, TRUE, 60, '2019.06.27', '09:00', null),
+  (4, 2, 2, TRUE, TRUE, 60, '2019.06.27', '10:00', null),
+  (5, 3, 2, FALSE, FALSE, 60, '2019.06.27', '11:00',"Easy"),
+  (6, 1, 2, TRUE, FALSE, 60, '2019.06.27', '12:00', "Easy"),
+  (7, 13, 2, FALSE, FALSE, 90, '2019.05.27', '13:00', "Easy"),
+  (8, 14, 2, TRUE, FALSE, 60, '2019.05.27', '14:00', "Easy"),
+  (9, 8, 2, TRUE, FALSE, 60, '2019.05.27', '15:00', "Easy"),
+  (10, 9, 2, TRUE, FALSE, 120, '2019.05.27', '16:00', "Easy"),
+  (11, 11, 2, TRUE, FALSE, 60, '2019.05.27', '17:00', "Easy");
 COMMIT;
 -- ====================================================
 -- Insertion Table : cpJoin

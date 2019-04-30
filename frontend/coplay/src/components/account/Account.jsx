@@ -37,9 +37,7 @@ class Account extends Component {
   handleChange = prop => event => {
     this.setState({ [prop]: event.target.value });
   };
-  handleChangeMemorise = () => {
-    this.setState(state => ({ rememberMe: !state.rememberMe }));
-  };
+
   handleClickShowPassword = () => {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
@@ -105,23 +103,22 @@ class Account extends Component {
             <DialogEditEmail open={this.state.openE} handleClose={this.handleClose} />
             <DialogEditPwd open={this.state.openP} handleClose={this.handleClose} />
 
-
-
-
           </div>
         </form>
+        <Typography variant="h6" className={classes.title}>
+          Next games :
+        </Typography>
       </div>
     );
   }
 }
 
 const styles = theme => ({
-  label: {
-
+  title: {
+    marginTop: theme.spacing.unit *3,
+    marginBottom: theme.spacing.unit *3,
   },
-  input: {
 
-  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing.unit,
