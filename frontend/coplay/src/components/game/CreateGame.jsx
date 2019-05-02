@@ -42,9 +42,21 @@ class CreateGame extends Component {
 
 
   handleCreate = () => {
-    e.preventDefault();
+
     //get usernames and need check pruvate
-    this.props.createGame(this.state)
+    let game = {
+        fkPlayground: 3,
+        fkUserCreator: 3,
+        isSingle: true,
+        isPrivate: false,
+        duration: this.state.duration,
+        startDate: '2019-05-30',
+        startTime: '22:00',
+        description: "For a serious match. R5 to R3 level",
+    }
+
+
+    this.props.createGame(game)
   }
 
   render() {
