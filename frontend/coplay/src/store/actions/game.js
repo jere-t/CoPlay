@@ -22,6 +22,32 @@ export const createGame = (game) => {
 
   }
 }
+
+export const fetchGames = (idClub, idSport, date) => {
+  return async (dispatch, getState) => {
+    try {
+      const url = `${apiRoot}/game/advance/${date}&${idClub}&${idSport}`;
+      const params = {
+        method: 'GET',
+      };
+
+      const resp = await fetch(url, params);
+      //console.log(resp)
+      if (resp.ok) {
+        //to json
+        const data = await resp.json();
+        dispatch({ type: 'GET_GAMES_SUCCESS', activeGames: data });
+      } else {
+        console.log(resp);
+        throw Error;
+      }
+    } catch (e) {
+      console.log(e)
+    } finally {
+      return {type: null};
+    }
+  }
+};
 //dispatch({ type: 'CREATE_GAME', game })
 // return (dispatch, getState) => {
 //   const url = `${apiRoot}/game`;

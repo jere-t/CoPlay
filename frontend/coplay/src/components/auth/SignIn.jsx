@@ -40,6 +40,7 @@ class SignIn extends Component {
     console.log(this.props);
     this.props.loginCheck(this.state.username, this.state.password, this.props.activeClubId);
 
+
     this.setState({ redirect: true });
 
   };

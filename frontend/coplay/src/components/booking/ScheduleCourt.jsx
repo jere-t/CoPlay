@@ -1,6 +1,8 @@
 // components/booking/ScheduleCourt.jsx
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchGames } from '../../store/actions/game';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -20,6 +22,10 @@ class ScheduleCourt extends Component {
     fkPlayground: 0,
     time: moment().format('HH:mm'),
   };
+
+  componentDidMount() {
+    this.props.fetchGames( this.props.idClub, this.props.idSport, this.state.date);
+  }
 
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
@@ -128,4 +134,15 @@ ScheduleCourt.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ScheduleCourt);
+
+const mapStateToProps = state => ({
+  activeClubId: state.club.activeClubId,
+  activeSportId: state.sport.activeSportId,
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchGames: (idClub, idSport, date) => dispatch(fetchGames(idClub, idSport, date))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(ScheduleCourt));
