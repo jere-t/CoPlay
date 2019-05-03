@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getUserById, updateUser } from '../../store/actions/account';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -17,15 +18,15 @@ import DialogEditPwd from './DialogEditPwd';
 
 class Account extends Component {
   state = {
-    firstname: 'toto',
-    lastname: 'titi',
-    username: 'tastitoo',
-    email: 'toto@gmail.com',
-    password: '',
+
     showPassword: false,
     openE: false,
     openP: false,
   };
+
+  componentDidMount() {
+    this.props.getUserById(this.props.activeUser.idUser);
+  }
 
   clickChangeEmail = () => {
     this.setState({ openE: true });
@@ -34,82 +35,84 @@ class Account extends Component {
     this.setState({ openP: true });
   };
 
-  handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value });
-  };
-
-  handleClickShowPassword = () => {
-    this.setState(state => ({ showPassword: !state.showPassword }));
-  };
-  handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state);
-  };
+  updateUser = (user) => {
+    console.log(user.passwordHash);
+    this.props.updateUser(user);
+    this.handleClose();
+  }
 
   handleClose = () => {
     this.setState({ openE: false, openP: false});
   };
 
   render() {
-    const { classes } = this.props;
-    console.log(this.props);
-
-    return (
-      <div className={classes.root}>
-        <form className={classes.form} >
+    const { classes, activeUser} = this.props;
+    if (activeUser) {
+      return (
+        <div className={classes.root}>
+          <form className={classes.form} >
+            <Typography variant="h6" className={classes.title}>
+              Account informations
+            </Typography>
+            <FormControl className={classes.margin}>
+              <InputLabel className={classes.label} htmlFor="firstname">Firstname: </InputLabel>
+              <Input
+                className={classes.input}
+                id="firstname"
+                value={activeUser.firstname}
+                disabled
+              />
+            </FormControl>
+            <FormControl className={classes.margin}>
+              <InputLabel htmlFor="lastname">Lastname: </InputLabel>
+              <Input
+                id="lastname"
+                value={activeUser.lastname}
+                disabled
+              />
+            </FormControl>
+            <FormControl className={classes.margin}>
+              <InputLabel htmlFor="username">Username: </InputLabel>
+              <Input
+                id="username"
+                value={activeUser.username}
+                disabled
+              />
+            </FormControl>
+            <FormControl className={classes.margin}>
+              <InputLabel htmlFor="email">Email: </InputLabel>
+              <Input
+                id="email"
+                value={activeUser.email}
+                disabled
+              />
+            </FormControl>
+            <div className={classes.buttons}>
+              <Button variant="contained" color="primary" className={classes.button} onClick={this.clickChangeEmail}>
+                Change email
+              </Button>
+              <Button variant="contained" color="primary" className={classes.button} onClick={this.clickChangePwd}>
+                Change password
+              </Button>
+              <DialogEditEmail open={this.state.openE} handleClose={this.handleClose} user={activeUser} updateUser={this.updateUser}/>
+              <DialogEditPwd open={this.state.openP} handleClose={this.handleClose} user={activeUser} updateUser={this.updateUser}/>
+            </div>
+          </form>
           <Typography variant="h6" className={classes.title}>
-            Account informations
+            Next games :
           </Typography>
-          <FormControl className={classes.margin}>
-            <InputLabel className={classes.label} htmlFor="firstname">Firstname: </InputLabel>
-            <Input
-              className={classes.input}
-              id="firstname"
-              value={this.state.firstname}
-              disabled
-            />
-          </FormControl>
-          <FormControl className={classes.margin}>
-            <InputLabel htmlFor="lastname">Lastname: </InputLabel>
-            <Input
-              id="lastname"
-              value={this.state.lastname}
-              disabled
-            />
-          </FormControl>
-          <FormControl className={classes.margin}>
-            <InputLabel htmlFor="username">Username: </InputLabel>
-            <Input
-              id="username"
-              value={this.state.username}
-              disabled
-            />
-          </FormControl>
-          <FormControl className={classes.margin}>
-            <InputLabel htmlFor="email">Email: </InputLabel>
-            <Input
-              id="email"
-              value={this.state.email}
-              disabled
-            />
-          </FormControl>
-          <div className={classes.buttons}>
-            <Button variant="contained" color="primary" className={classes.button} onClick={this.clickChangeEmail}>
-              Change email
-            </Button>
-            <Button variant="contained" color="primary" className={classes.button} onClick={this.clickChangePwd}>
-              Change password
-            </Button>
-            <DialogEditEmail open={this.state.openE} handleClose={this.handleClose} />
-            <DialogEditPwd open={this.state.openP} handleClose={this.handleClose} />
+        </div>
+      )
+    } else {
+      return (
+        <div className={classes.root}>
+          <Typography variant="h6" className={classes.title}>
+            Loading ...
+          </Typography>
+        </div>
+      )
+    }
 
-          </div>
-        </form>
-        <Typography variant="h6" className={classes.title}>
-          Next games :
-        </Typography>
-      </div>
-    );
   }
 }
 
@@ -157,10 +160,13 @@ Account.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  return {        //state.nomfichierreducer.nomdustate
-    users: state.account.users
-  }
-}
+const mapStateToProps = state => ({
+    activeUser: state.account.activeUser
+});
 
-export default connect(mapStateToProps) (withStyles(styles)(Account));
+const mapDispatchToProps = (dispatch) => ({
+    getUserById: (id) => dispatch(getUserById(id)),
+    updateUser: (user) => dispatch(updateUser(user))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Account));

@@ -1,6 +1,7 @@
 // route/Navigation.jsx
 
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
@@ -17,13 +18,12 @@ import Admin from '../views/admin';
 
 class Navigator extends React.Component {
 
+
   render() {
     const { classes } = this.props;
 
     return(
       <BrowserRouter>
-
-        <div>
           <AppBar position="sticky" hide="true">
             <Toolbar>
               <Typography variant="h6" color="inherit" className={classes.grow} noWrap>
@@ -42,7 +42,7 @@ class Navigator extends React.Component {
                 Admin
               </Button>
               <Button disableRipple={false} component={Link} to="/">
-                Logout
+                {this.props.activeUser?"Logout":"Login"}
               </Button>
             </Toolbar>
           </AppBar>
@@ -54,8 +54,8 @@ class Navigator extends React.Component {
             <Route path="/admin" component={Admin}/>
             <Route render={() => <h1>Error 404: Page not found</h1>}/>
           </Switch>
-        </div>
       </ BrowserRouter>
+
     );
   }
 }
@@ -76,5 +76,9 @@ const styles = {
 
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
-export default withStyles(styles)(Navigator);
+const mapStateToProps = state => ({
+    activeUser: state.club.activeUser
+});
+
+export default connect(mapStateToProps) (withStyles(styles)(Navigator));
 //export default connect(mapStateToProps, { logout })(withStyles(styles)(Navigator));

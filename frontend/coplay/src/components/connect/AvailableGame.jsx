@@ -37,6 +37,7 @@ class AvailableGame extends Component {
   handleJoin = (param) => (event) => {
     console.log("joined : "+ param);
   }
+
   handleChange = (event) => {
     console.log("test");
     this.setState({ [event.target.name]: event.target.value });

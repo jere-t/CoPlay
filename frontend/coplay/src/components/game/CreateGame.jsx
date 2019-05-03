@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createGame } from '../../store/actions/game'
+import { createGame } from '../../store/actions/game';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -56,7 +56,7 @@ class CreateGame extends Component {
     }
 
 
-    this.props.createGame(game)
+    this.props.createGame(game);
   }
 
   render() {

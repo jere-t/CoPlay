@@ -16,6 +16,7 @@
   "author": "Jeremy Maret",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "fs": "0.0.1-security",
     "hapi": "^18.1.0",
     "hapi-swagger": "^9.4.2",

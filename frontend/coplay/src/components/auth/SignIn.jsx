@@ -1,6 +1,9 @@
 // components/auth/SignIn.jsx
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { loginCheck } from '../../store/actions/account';
+import { Redirect } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import FormControl from '@material-ui/core/FormControl';
@@ -16,14 +19,15 @@ import PasswordInput from '../PasswordInput';
 
 class SignIn extends Component {
   state = {
-    email: '',
+    username: '',
     password: '',
     rememberMe: false,
     showPassword: false,
+    redirect: false,
   };
 
   handleChange = props => event => {
-    this.setState({ [event.target.name]: event.target.value },() => console.log(this.state));
+    this.setState({ [event.target.name]: event.target.value });
   };
   handleChangeMemorise = () => {
     this.setState(state => ({ rememberMe: !state.rememberMe }));
@@ -33,28 +37,41 @@ class SignIn extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    console.log(this.state);
+    console.log(this.props);
+    this.props.loginCheck(this.state.username, this.state.password, this.props.activeClubId);
+
+    this.setState({ redirect: true });
+
   };
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/booking' />
+    }
+  }
 
   render() {
     const { classes } = this.props;
-
+    console.log(this.state);
     return (
+
       <div className={classes.root}>
+        {this.renderRedirect()}
+
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl required fullWidth className={classes.margin}>
-              <InputLabel htmlFor="email">Email</InputLabel>
+              <InputLabel htmlFor="username">Username</InputLabel>
               <Input
-                id="email"
-                name="email"
-                value={this.state.email}
+                id="username"
+                name="username"
+                value={this.state.username}
                 onChange={this.handleChange()}
                 autoFocus
-                autoComplete="email"
+                autoComplete="username"
               />
             </FormControl>
             <PasswordInput name="password" password={this.state.password} handleChange={this.handleChange} />
@@ -113,4 +130,14 @@ SignIn.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SignIn);
+const mapStateToProps = state => ({
+    activeClubId: state.club.activeClubId,
+    activeUser: state.account.activeUser
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    loginCheck: (username, passwordHash, idClub) => dispatch(loginCheck(username, passwordHash, idClub))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(SignIn));

@@ -9,11 +9,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import bcrypt from 'bcryptjs';
+
 
 import PasswordInput from '../PasswordInput';
 
 
 class DialogEditPwd extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +34,13 @@ class DialogEditPwd extends Component {
   };
 
   checkOldPassword = (pwd) => {
-    if (pwd === "1234") {
+    let hash =this.props.user.passwordHash;
+    bcrypt.compare(pwd, hash, function(err, res) {
+        console.log(res);
+    });
+    return true;
+
+    if (bcrypt.compareSync(pwd, hash)) {
       return true;
     } else {
       this.setState({errorMsg : 'The old password are not correct'});
@@ -51,6 +60,14 @@ class DialogEditPwd extends Component {
   };
 
   savePassword = (pwd) => {
+    let newUser = {...this.props.user};
+    const saltRounds = 10;
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+        bcrypt.hash(pwd, salt, (err, hash) => {
+          newUser.passwordHash = hash;
+          this.props.updateUser(newUser);
+        });
+    });
 
   };
 

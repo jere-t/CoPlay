@@ -4,15 +4,15 @@ import apiRoot from "../../constants/AppConstants";
 
 export const createGame = (game) => {
   //Because of thunk we can return a function
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const url = `${apiRoot}/game`;
-    const method = "POST";
-    const params = {};
-
-    fetch(url , {
+    const params = {
       method: 'POST',
       body: JSON.stringify(game),
-      headers: { 'Content-Type': 'application/json' }})
+      headers: { 'Content-Type': 'application/json' }
+    };
+
+    fetch(url , params)
       .then(response => {
         dispatch({ type: 'CREATE_GAME_SUCCESS' });
       })

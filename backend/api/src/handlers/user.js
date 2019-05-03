@@ -1,5 +1,6 @@
 // handlers/club.js
 import { dbGetAllUsers, dbGetUserById, dbGetUserByUsername, dbGetUserByUsernameAndIdClub, dbAddUser, dbUpdateUser, dbDeleteUser } from '../models/user';
+import bcrypt from 'bcryptjs';
 
 //Get all clubs
 export const getAllUsers = (request, reply) => {
@@ -94,22 +95,15 @@ export const getUserByUsername = (request, reply) => {
 }
 
 //Get an user by username & IdClub For LOGIN
-export const getUserByUsernameAndIdClub = (request, reply) => {
-    let username = request.params.username
-    let id = parseInt(request.params.idClub);
-     return dbGetUserByUsernameAndIdClub(username, id).then(data => {
-        if (data == null) {
-            return reply.response(JSON.stringify(
-                {
-                    "error": {
-                        "error_type": "DATABASE_REQUIREMENTS",
-                        "error_message": "id doesn't exist!"
-                    }
-                }
-            )).code(404);
+export const getUserByUsernameAndIdClub = (username, idClub) => {
+    //let username = request.params.username
+    //let id = parseInt(request.params.idClub);
+     return dbGetUserByUsernameAndIdClub(username, idClub).then(data => {
+        if (data == null || data.length < 1) {
+            return null;
         }
         else {
-            return reply.response(data).code(200);
+            return data;
         }
     }).catch((error) => {
         console.log(error);
@@ -124,6 +118,64 @@ export const getUserByUsernameAndIdClub = (request, reply) => {
         )).code(500);
     });
 }
+//error 404 bad username & error 500 ==> bad password
+export const checkLogin = (request, reply) => {
+    console.log(request);
+    let username = request.params.username;
+    let req = request.payload;
+    return getUserByUsernameAndIdClub(req.username, req.idClub).then(data => {
+      if (data == null) {
+          return reply.response(JSON.stringify(
+              {
+                  "error": {
+                      "error_type": "DATABASE_REQUIREMENTS",
+                      "error_message": "username doesn't exist for this club"
+                  }
+              }
+          )).code(404);
+      } else {
+        if (bcrypt.compareSync(req.passwordHash, data[0].cpUser.passwordHash)) {
+          return reply.response(data).code(200);
+        } else {
+          console.log("===");
+          return reply.response(JSON.stringify(
+            {
+                "error": {
+                    "error_type": "DATABASE_ERROR",
+                    "error_message": "The password doesn't correspond to the DB passwordHash"
+                }
+            }
+          )).code(500);
+        }
+      }
+      }).catch((error) => {
+            console.log("================= error: " + error.toString());
+            console.log("error.sqlMessage: " + error.sqlMessage);
+            if (error.errno == 1054) {
+                return reply.response(JSON.stringify(
+                    {
+                        "error": {
+                            "error_type": "DATABASE_ERROR",
+                            "error_message": "Bad parameter name",
+                            "db_message": error.sqlMessage
+                        }
+                    }
+                )).code(409);
+            } else {
+                return reply.response(JSON.stringify(
+                    {
+                        "error": {
+                            "error_type": "DATABASE_ERROR",
+                            "error_message": "Unspecified_server_error",
+                            "inner_error": error.body
+                        }
+                    }
+                )).code(500);
+            }
+        });
+}
+
+
 
 //Add a new user
 export const addUser = (request, reply) => {

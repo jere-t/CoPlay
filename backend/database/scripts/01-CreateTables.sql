@@ -17,7 +17,7 @@ CREATE TABLE cpUser (
 		firstname   		VARCHAR(255) 		NOT NULL,
 		lastname    		VARCHAR(255) 		NOT NULL,
 		email       		VARCHAR(255) 		NOT NULL,
-		userBirthDay    DATE,
+		userBirthday    DATE,
 
 		CONSTRAINT PK_cpUser PRIMARY KEY (idUser),
 	  CONSTRAINT AK_cpUser_username UNIQUE (username),

@@ -8,19 +8,19 @@
 -- password are "test" Except for admin --> "admin"
 INSERT INTO cpUser
     VALUES
-      (1, 'admin', 'admin', 'Admin', 'CoPlay','admin@connectnplay.com', '1995.01.11'),
-      (2, 'maret', 'admin', 'Jeremy', 'Maret','jeremy.maret@connectnplay.com', '1995.11.16'),
-      (3, 'salomebt', 'test', 'Salomé', 'Boudet','salosport@chou.fr', '1998.03.26'),
-      (4, 'lucas', 'test', 'Lucas', 'Ducret','lulududu@gmail.fr', '1996.06.07'),
-      (5, 'rudolf', 'test', 'Rudolf', 'Ligid','rurud@hotmail.fr', '1998.10.06'),
-      (6, 'julien', 'test', 'Julien', 'Dubuis','juju@hotmail.fr', '1998.07.08'),
-      (7, 'hannes', 'test', 'Hannes', 'Aukthun','hanhan@hotmail.de', '1997.01.06'),
-      (8, 'raphael', 'test', 'Raphaël', 'Azzoug','raph@hotmail.fr', '1998.12.06'),
-      (9, 'clement', 'test', 'Clement', 'Vasseur','clecle@hotmail.fr', '1997.10.10'),
-      (10, 'pottier', 'test', 'Sophie', 'Pottier','soso@hotmail.fr', '1997.01.06'),
-      (11, 'ben', 'test', 'Benjamin', 'Decaillet','Benny@hotmail.ch', '1993.01.06'),
-      (12, 'kevin', 'test', 'Kevin', 'Berret','kev@hotmail.ch', '1992.01.06'),
-      (13, 'dylan', 'test', 'Dylan', 'Lopez','dydy@hotmail.fr', '2009.01.06');
+      (1, 'admin', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Admin', 'CoPlay','admin@connectnplay.com', '1995.01.11'),
+      (2, 'maret', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Jeremy', 'Maret','jeremy.maret@connectnplay.com', '1995.11.16'),
+      (3, 'salomebt', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Salomé', 'Boudet','salosport@chou.fr', '1998.03.26'),
+      (4, 'lucas', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Lucas', 'Ducret','lulududu@gmail.fr', '1996.06.07'),
+      (5, 'rudolf', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Rudolf', 'Ligid','rurud@hotmail.fr', '1998.10.06'),
+      (6, 'julien', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Julien', 'Dubuis','juju@hotmail.fr', '1998.07.08'),
+      (7, 'hannes', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Hannes', 'Aukthun','hanhan@hotmail.de', '1997.01.06'),
+      (8, 'raphael', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Raphaël', 'Azzoug','raph@hotmail.fr', '1998.12.06'),
+      (9, 'clement', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Clement', 'Vasseur','clecle@hotmail.fr', '1997.10.10'),
+      (10, 'pottier', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Sophie', 'Pottier','soso@hotmail.fr', '1997.01.06'),
+      (11, 'ben', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Benjamin', 'Decaillet','Benny@hotmail.ch', '1993.01.06'),
+      (12, 'kevin', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Kevin', 'Berret','kev@hotmail.ch', '1992.01.06'),
+      (13, 'dylan', '$2a$10$zQfPgyZLtYbZrIIqRwWRYORBkQJ4vW1pcwTq/KrmHWtC0GhWiWb86', 'Dylan', 'Lopez','dydy@hotmail.fr', '2009.01.06');
 COMMIT;
 -- ====================================================
 -- Insert Table : cpCountry

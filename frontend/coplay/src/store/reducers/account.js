@@ -1,15 +1,28 @@
 // store/reducers/account.js
 
-const initState = {
-  users: [
-    {idUser: '1', username: 'admin', passwordHash: 'admin', firstname: 'admin', lastname: 'tef', email: 'jfeig@mgmail.com'},
-    {idUser: '2', username: 'jfeg', passwordHash: 'dhehf', firstname: 'fwefwegw', lastname: 'fwe', email: 'gewgggggggig@mgmail.com'},
-    {idUser: '3', username: 'maret', passwordHash: '12345678', firstname: 'fwe', lastname: 'fwegwge', email: 'yyyyyyyyy@mgmail.com'},
-  ]
+export const  initState = {
+  activeUser: null,
 }
 
-const account = (state = initState, action) => {
-  return state;
+const account  = (state = initState, action) => {
+  let nextState;
+  console.log("DFRGFHGFDASHTGRFEADWHTDZJHGRSFE");
+  switch (action.type) {
+    case 'LOGIN_SUCCESS':
+      nextState = {
+          ...state,
+          activeUser: action.activeUser,
+      }
+      //Return nextState but if it is undefined, return state
+      //It is for security reason, if something went wrong during the "creation" of the new state, you keep the old one
+      return nextState || state;
+    case 'UPDATE_USER_SUCCESS':
+      return state;
+    case 'UPDATE_USER_ERROR':
+      return state;
+    default:
+      return state
+  }
 }
 
 export default account;

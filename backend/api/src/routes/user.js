@@ -1,12 +1,13 @@
 // routes/user.js
 
 //routes for table user
-import { getAllUsers, getUserById, getUserByUsername, getUserByUsernameAndIdClub, addUser, updateUser, deleteUser } from '../handlers/user';
+import { getAllUsers, getUserById, getUserByUsername, getUserByUsernameAndIdClub,checkLogin, addUser, updateUser, deleteUser } from '../handlers/user';
 const Joi = require('joi');
 const userSchema = require('../schemas/user/user');
 const userLoginSchema = require('../schemas/user/userLogin');
 const addUserSchema = require('../schemas/user/add');
 const updateUserSchema = require('../schemas/user/update');
+const checkLoginUserSchema = require('../schemas/user/checkLogin');
 
 const user = [
   {
@@ -162,20 +163,21 @@ const user = [
       }
   },
   {
-      method: 'GET',
-      path: '/user/{username}&{idClub}',
-      handler: getUserByUsernameAndIdClub,
-      options: {
-          // JOI validation for the request
-          validate: {
-              params: {
-                  username: Joi.string().required(),
-                  idClub: Joi.number().integer().required()
+      method: 'POST',
+      path: '/user/login',
+      handler: checkLogin,
+      options:{
+          validate:{
+              payload: checkLoginUserSchema,
+              //Show error for debug
+              failAction: (request, h, err) => {
+                  throw err;
+                  return;
               }
           },
           // API Documentation Generation
           tags: ['api'],
-          description: 'Get a specific user by using its id',
+          description: 'check login and if right return the user info',
           plugins: {
               'hapi-swagger': {
                   // description of all possible responses provided by the API with their HTTP code

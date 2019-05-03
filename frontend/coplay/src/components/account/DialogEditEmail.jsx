@@ -22,7 +22,7 @@ class DialogEditEmail extends Component {
     };
   }
 
-  handleChange = prop => event => {
+  handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -36,7 +36,9 @@ class DialogEditEmail extends Component {
     }
   };
   saveEmail = (email) => {
-
+    let newUser = {...this.props.user};
+    newUser.email = email;
+    this.props.updateUser(newUser);
   };
 
   handleSave = () => {
@@ -64,7 +66,7 @@ class DialogEditEmail extends Component {
               id="email"
               name="email"
               value={this.state.email}
-              onChange={this.handleChange()}
+              onChange={this.handleChange}
               autoFocus
               autoComplete="email"
             />
