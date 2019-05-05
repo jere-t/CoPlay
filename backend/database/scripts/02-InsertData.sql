@@ -65,7 +65,8 @@ INSERT INTO cpSport
     (1, 'Tennis'),
     (2, 'Padel'),
     (3, 'Badminton'),
-    (4, 'Ping pong');
+    (4, 'Ping pong'),
+    (5, 'Squash');
 COMMIT;
 -- ====================================================
 -- Insert Table : cpCourtType
@@ -89,7 +90,7 @@ INSERT INTO cpClub
     (1, 'TCGland', 'Route de la gare 10, Gland 1285, Suisse', 4),
     (2, 'TCNyon', 'Route du lac 9, Nyon 1260, Suisse', 1),
     (3, 'Post Bar', 'Yksitadiuja 12B, Helinki 00520, Helsinki', 11),
-    (4, 'TCVersoix', 'Route de la gare 10, Gland 1285, Suisse', 6),
+    (4, 'TCVersoix', 'Route de la gare 10, Gland 1285, Suisse', 5),
     (5, 'Country Club Genève', 'Route de l''aeroport 55, Bellevue 1185, Suisse', 2),
     (6, 'TCAigle', 'Route de la foire 1, Aigle 1089, Suisse', 3),
     (7, 'HOAS Ping Pong', 'Junailijankuja 5A, Helinki 00520, Helsinki', 11);
@@ -113,7 +114,11 @@ INSERT INTO cpPlayground
     (12, 7, 4, 2, 'T2', FALSE),
     (13, 2, 1, 4, 'Central', TRUE),
     (14, 2, 1, 4, 'Mary', TRUE),
-    (15, 2, 1, 4, 'Toto', TRUE);
+    (15, 2, 1, 4, 'Toto', TRUE),
+    (16, 1, 2, 7, 'P1', TRUE),
+    (17, 1, 2, 7, 'P2', TRUE),
+    (18, 1, 5, 2, 'S1', FALSE),
+    (19, 1, 1, 8, 'Halle1', TRUE);
 COMMIT;
 -- ====================================================
 -- Insert Table : cpGame

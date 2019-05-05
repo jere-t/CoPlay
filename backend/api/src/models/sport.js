@@ -17,5 +17,5 @@ export const dbGetSportsOfAClub = (idClub) => {
    return knex.from('cpSport').distinct('nameSport')
    .leftJoin('cpPlayground', 'cpPlayground.fkSport', '=', 'cpSport.idSport')
    .options({ nestTables: true })
-   .where({ idClub: idClub }).select('idSport', 'nameSport').orderBy('nameSport');
+   .where({ fkClub: idClub }).select('idSport', 'nameSport');
 };

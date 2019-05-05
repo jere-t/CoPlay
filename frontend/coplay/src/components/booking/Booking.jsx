@@ -1,6 +1,9 @@
 // components/booking/Booking.jsx
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { fetchSport } from '../../store/actions/sport';
+import { fetchCourt } from '../../store/actions/playground';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -13,19 +16,22 @@ class Booking extends Component {
   state = {
     //When sport is create need to config this state
     activeSport: 1,
-    sports: [{idSport:1, nameSport:"Tennis"},{idSport:2, nameSport:"Padel"},{idSport:3, nameSport:"Squash"}],
   };
 
-  handleChange = (event, activeSport) => {
-    console.log(activeSport);
-    this.setState({ activeSport });
+  componentDidMount() {
+    this.props.fetchSport(this.props.activeClubId);
+    this.props.fetchCourt(this.props.activeClubId, this.props.activeSportId);
+  }
 
+  handleChange = (event, activeSport) => {
+    this.props.changeActiveSport(activeSport);
+    this.props.fetchCourt(this.props.activeClubId, activeSport);
   };
 
   render() {
     const { classes } = this.props;
-    const sportTab = this.state.sports.map((sport, index) =>
-      <Tab label={sport.nameSport} value={sport.idSport} key={index} />
+    const sportTab = this.props.sports.map((sport, index) =>
+      <Tab label={sport.cpSport.nameSport} value={sport.cpSport.idSport} key={index} />
     );
 
 
@@ -33,7 +39,7 @@ class Booking extends Component {
       <div>
         <Paper className={classes.root}>
           <Tabs
-            value={this.state.activeSport}
+            value={this.props.activeSportId}
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
@@ -42,7 +48,7 @@ class Booking extends Component {
             {sportTab}
           </Tabs>
         </Paper>
-        <ScheduleCourt idSport={this.state.activeSport}/>
+        <ScheduleCourt idSport={this.props.activeSportId}/>
       </div>
     );
   }
@@ -59,4 +65,17 @@ Booking.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Booking);
+const mapStateToProps = state => ({
+  activeClubId: state.club.activeClubId,
+  activeSportId: state.sport.activeSportId,
+  sports: state.sport.sports,
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchSport: (idClub) => dispatch(fetchSport(idClub)),
+    changeActiveSport: (activeSport) => dispatch({ type: 'CHANGE_ACTIVE_SPORT', activeSportId: activeSport }),
+    fetchCourt: (idClub, idSport) => dispatch(fetchCourt(idClub, idSport)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Booking));

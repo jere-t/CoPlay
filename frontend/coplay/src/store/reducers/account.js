@@ -6,7 +6,6 @@ export const  initState = {
 
 const account  = (state = initState, action) => {
   let nextState;
-  console.log("DFRGFHGFDASHTGRFEADWHTDZJHGRSFE");
   switch (action.type) {
     case 'LOGIN_SUCCESS':
       nextState = {

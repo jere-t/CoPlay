@@ -16,19 +16,18 @@ import CreateGame from '../game/CreateGame';
 
 class ScheduleCourt extends Component {
   state = {
-    date: moment().format('YYYY-MM-DD'),
-    sports: [{idSport:1, nameSport:"Tennis"},{idSport:2, nameSport:"Padel"},{idSport:3, nameSport:"Squash"}],
     open: false,
     fkPlayground: 0,
     time: moment().format('HH:mm'),
   };
 
   componentDidMount() {
-    this.props.fetchGames( this.props.idClub, this.props.idSport, this.state.date);
+    this.props.fetchGames( this.props.activeClubId, this.props.activeSportId, moment().format('YYYY-MM-DD'));
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleChangeDate = (event) => {
+    //this.setState({ [event.target.name]: event.target.value });
+    this.props.fetchGames( this.props.activeClubId, this.props.activeSportId, event.target.value);
   };
 
   handleSelectEvent = (event) => {
@@ -37,8 +36,6 @@ class ScheduleCourt extends Component {
 
   handleSelectSlot = (event) => {
     this.setState({time: moment(event.start).format('HH:mm'), fkPlayground: event.resourceId, open: true, });
-    console.log(this.state);
-    console.log(moment(event.start).format('HH:mm'));
   };
 
   handleClose = () => {
@@ -46,25 +43,30 @@ class ScheduleCourt extends Component {
   };
 
   render() {
-    //console.log(moment("2019-11-25T10:00:00.000Z").format('HH:mm'));
     const { classes } = this.props;
-    const localizer = BigCalendar.momentLocalizer(moment)
-    const courtResourceMap = [
-      { idPg: 1, nameCourt: 'Court' },
-      { idPg: 2, nameCourt: 'Court2' },
-      { idPg: 3, nameCourt: 'Court3'  },
-      //{ resourceId: {idPg}, resourceTitle: 'Meeting room 2' },
-    ]
+    const localizer = BigCalendar.momentLocalizer(moment);
+    const courtResourceMap = this.props.courts.map((court) =>
+      ({
+        idPg: court.cpPlayground.idPg , nameCourt: court.cpPlayground.nameCourt,
+      })
+    );
+    console.log(courtResourceMap);
+    const myEventsListi = this.props.games.map((game, index) =>
+      ({
+        title: game.cpGame.isPrivate?"Reservation":"OpenParty",
+        start: moment("2019-06-27T13:00:00.000Z").toDate(),//moment(game.cpGame.startDate.substring(0, 11)+game.cpGame.startTime+".000Z").toDate(),
+        end: moment("2019-06-27T15:00:00.000Z").toDate(),//moment(game.cpGame.startDate.substring(0, 11)+game.cpGame.startTime+".000Z").add(60, 'm').toDate(),
+        resourceId: game.cpGame.fkPlayground,
+      })
+    );
     const myEventsList = [
-      {title: "Double", start: moment("2019-04-29T10:00:00.000Z").toDate(), end: moment("2019-04-29T11:00:00.000Z").toDate(), resourceId: 3,},
-      {title: "Simple", start: moment("2019-04-29T13:00:00.000Z").toDate(), end: moment("2019-04-29T15:00:00.000Z").toDate(), resourceId: 1,},
-    ];
-    let formats = {
-        selectRangeFormat: () =>
-          moment("7:00am").toDate()+" — "+moment("10:00pm").toDate()
+  {title: "Double", start: moment("2019-05-06T10:00:00.000Z").toDate(), end: moment("2019-04-29T11:00:00.000Z").toDate(), resourceId: 3,},
+  {title: "Simple", start: moment("2019-05-06T13:00:00.000Z").toDate(), end: moment("2019-04-29T15:00:00.000Z").toDate(), resourceId: 1,},
+];
 
 
-      }
+    console.log(myEventsList);
+    console.log(myEventsListi);
 
     return (
 
@@ -75,14 +77,13 @@ class ScheduleCourt extends Component {
             label="Date"
             type="date"
             name="date"
-            defaultValue={this.state.date}
+            defaultValue={moment().format('YYYY-MM-DD')}
             className={classes.textField}
-            onChange={this.handleChange}
+            onChange={this.handleChangeDate}
             InputLabelProps={{
               shrink: true,
             }}
           />
-
         </form>
         <div>
           <BigCalendar
@@ -103,7 +104,6 @@ class ScheduleCourt extends Component {
               timeslots={1}
               min={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), 25201, 'seconds')}
               max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -7200, 'seconds')}
-              formats={formats}
           />
         <CreateGame open={this.state.open} handleClose={this.handleClose} date={this.state.date} time={this.state.time} idPg={this.state.fkPlayground} />
         </div>
@@ -138,6 +138,8 @@ ScheduleCourt.propTypes = {
 const mapStateToProps = state => ({
   activeClubId: state.club.activeClubId,
   activeSportId: state.sport.activeSportId,
+  games: state.game.games,
+  courts: state.playground.courts,
 });
 
 
