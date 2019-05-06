@@ -43,6 +43,7 @@ const ListPlayers = (props) => {
           value={username1}
           name="username1"
           onChange={handleChange}
+          disabled
         />
       </FormControl>
       <FormControl className={classes.margin}>
@@ -61,11 +62,25 @@ const ListPlayers = (props) => {
 }
 
 const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  formControl: {
+
+  },
+  group: {
+
+  },
   margin: {
     margin: "normal",
   },
   error: {
     color: "red",
+  },
+  textField: {
+   marginLeft: theme.spacing.unit,
+   marginRight: theme.spacing.unit,
+   width: 200,
   },
 });
 

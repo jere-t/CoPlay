@@ -2,13 +2,14 @@
 
 //knex for querry builder
 import knex from '../db/knex';
+import moment from 'moment';
 
  //Querry to get all games from Game table
 export const dbGetAllGames = () => {
     return knex.from('cpGame')
           .leftJoin('cpPlayground', 'cpGame.fkPlayground', '=', 'cpPlayground.idPg')
           .options({ nestTables: true })
-          .select().orderBy('startDate').orderBy('startTime');
+          .select().orderBy('startDate');
 };
  //Querry to get a game from Game table
 export const dbGetGameById = (id) => {
@@ -22,10 +23,8 @@ export const dbGetAllGamesByAdvanceSearch = (date, idClub, idSport) => {
    return knex.from('cpGame')
          .leftJoin('cpPlayground', 'cpGame.fkPlayground', '=', 'cpPlayground.idPg')
          .options({ nestTables: true })
-         .where({ startDate: date, fkClub: idClub, fkSport: idSport }).select().orderBy('startTime');
+         .whereBetween('startDate', [date, moment(date).add(1, 'days').toDate()]).where({ fkClub: idClub, fkSport: idSport }).select().orderBy('startDate');
 };
-
-
 
 //add a game from cpGame table
 export const dbAddGame = (req) => {
@@ -33,7 +32,7 @@ export const dbAddGame = (req) => {
 }
 
 export const dbCheckAvailable = (req) => {
-    return knex.from('cpGame').count('idGame as existing').where({fkPlayground: req.fkPlayground, startDate: req.startDate, startTime: req.startTime}).first().select();
+    return knex.from('cpGame').count('idGame as existing').where({fkPlayground: req.fkPlayground, startDate: req.startDate}).first().select();
 }
 
 //Update a game from cpGame table

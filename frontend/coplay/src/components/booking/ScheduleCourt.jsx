@@ -19,6 +19,7 @@ class ScheduleCourt extends Component {
     open: false,
     fkPlayground: 0,
     time: moment().format('HH:mm'),
+    date: moment().format('YYYY-MM-DD'),
   };
 
   componentDidMount() {
@@ -26,7 +27,7 @@ class ScheduleCourt extends Component {
   }
 
   handleChangeDate = (event) => {
-    //this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
     this.props.fetchGames( this.props.activeClubId, this.props.activeSportId, event.target.value);
   };
 
@@ -50,26 +51,16 @@ class ScheduleCourt extends Component {
         idPg: court.cpPlayground.idPg , nameCourt: court.cpPlayground.nameCourt,
       })
     );
-    console.log(courtResourceMap);
-    const myEventsListi = this.props.games.map((game, index) =>
+    const myEventsList = this.props.games.map((game) =>
       ({
         title: game.cpGame.isPrivate?"Reservation":"OpenParty",
-        start: moment("2019-06-27T13:00:00.000Z").toDate(),//moment(game.cpGame.startDate.substring(0, 11)+game.cpGame.startTime+".000Z").toDate(),
-        end: moment("2019-06-27T15:00:00.000Z").toDate(),//moment(game.cpGame.startDate.substring(0, 11)+game.cpGame.startTime+".000Z").add(60, 'm').toDate(),
+        start: moment(game.cpGame.startDate).toDate(),
+        end: moment(game.cpGame.startDate).add(60, 'm').toDate(),//moment(game.cpGame.startDate.substring(0, 11)+game.cpGame.startTime).add(60, 'm').toDate(),
         resourceId: game.cpGame.fkPlayground,
       })
     );
-    const myEventsList = [
-  {title: "Double", start: moment("2019-05-06T10:00:00.000Z").toDate(), end: moment("2019-04-29T11:00:00.000Z").toDate(), resourceId: 3,},
-  {title: "Simple", start: moment("2019-05-06T13:00:00.000Z").toDate(), end: moment("2019-04-29T15:00:00.000Z").toDate(), resourceId: 1,},
-];
-
-
-    console.log(myEventsList);
-    console.log(myEventsListi);
 
     return (
-
       <div>
         <form className={classes.container} noValidate>
           <TextField

@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -28,7 +29,7 @@ class CreateGame extends Component {
 		duration: 60,
 		startDate: this.props.date,
 		startTime: this.props.time,
-    username1: '',
+    description: '',
     username2: '',
     username3: '',
     username4: '',
@@ -36,31 +37,48 @@ class CreateGame extends Component {
   };
 
   handleChange = (event) => {
-
-    this.setState({ [event.target.name]: event.target.value }, console.log(this.state));
+    this.setState({ [event.target.name]: event.target.value });
   };
 
 
   handleCreate = () => {
 
-    //get usernames and need check pruvate
+    //get usernames and need check private
     let game = {
-        fkPlayground: 3,
-        fkUserCreator: 3,
-        isSingle: true,
-        isPrivate: false,
+        fkPlayground: this.props.idPg,
+        fkUserCreator: this.props.activeUser.idUser,
+        isSingle: this.state.isSingle==="1",
+        isPrivate: this.state.isPrivate==="1",
         duration: this.state.duration,
-        startDate: '2019-05-30',
+        startDate: this.props.date+" "+this.props.time,
         startTime: '22:00',
-        description: "For a serious match. R5 to R3 level",
+        description: this.state.description,
     }
+    console.log(game);
 
-
-    this.props.createGame(game);
+    //this.props.createGame(game);
+    console.log("create join owner : "+this.props.activeUser.username);
+    if (this.state.isPrivate === "1") {
+      console.log("create join for all other username");
+    }
   }
 
   render() {
     const { classes } = this.props;
+
+    const description = (
+      <TextField
+        id="description"
+        label="Specify the sport level you want"
+        placeholder="Description"
+        multiline
+        className={classes.textField}
+        margin="normal"
+        value={this.state.description}
+        name="description"
+        onChange={this.handleChange}
+      />
+    );
     return (
       <Dialog
         open={this.props.open}
@@ -102,14 +120,14 @@ class CreateGame extends Component {
             </RadioGroup>
           </FormControl>
           {this.state.isPrivate==="1"?<ListPlayers
-                                    username1={this.state.username1}
+                                    username1={ " mareeeet"}
                                     username2={this.state.username2}
                                     username3={this.state.username3}
                                     username4={this.state.username4}
                                     isSingle={this.state.isSingle}
                                     handleChange={this.handleChange}
                                     classes={classes}
-                                />:""}
+                                />:description}
         </DialogContent>
         <DialogActions>
           <Button onClick={this.props.handleClose} color="primary">
@@ -138,11 +156,26 @@ const styles = theme => ({
   error: {
     color: "red",
   },
+  margin: {
+
+  },
+  textField: {
+   marginLeft: theme.spacing.unit,
+   marginRight: theme.spacing.unit,
+   width: '100%',
+  },
 });
 
 CreateGame.propTypes = {
   classes: PropTypes.object.isRequired,
 };
+
+const mapStateToProps = state => ({
+  activeUser: state.account.activeUser,
+  activeClubId: state.club.activeClubId,
+  activeSportId: state.sport.activeSportId,
+
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -150,4 +183,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps) (withStyles(styles)(CreateGame));
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(CreateGame));

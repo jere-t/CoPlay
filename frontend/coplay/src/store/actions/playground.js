@@ -15,7 +15,6 @@ export const fetchCourt = (idClub, idSport) => {
       if (resp.ok) {
         //to json
         const data = await resp.json();
-        console.log(data);
         dispatch({ type: 'GET_COURTS_SUCCESS', courts: data });
       } else {
         console.log(resp);

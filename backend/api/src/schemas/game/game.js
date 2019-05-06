@@ -28,8 +28,7 @@ module.exports = Joi.object().keys(
         isSingle: Joi.boolean(),
         isPrivate: Joi.boolean(),
         duration: Joi.number().integer(),
-        startDate: Joi.date().format('YYYY-MM-DD'),
-        startTime: Joi.date().format('HH:mm'),
+        startDate: Joi.date().format('YYYY-MM-DD HH:mm'),
         description: Joi.string(),
       }),
     });

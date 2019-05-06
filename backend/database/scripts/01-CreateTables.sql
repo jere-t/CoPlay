@@ -123,7 +123,7 @@ CREATE TABLE cpGame (
 		isSingle				BOOLEAN         NOT NULL,
 		isPrivate				BOOLEAN         NOT NULL,
 		duration   			INTEGER			 		NOT NULL,
-		startDate				DATE 						NOT NULL,
+		startDate				DATETIME				NOT NULL,
 		startTime       TIME		 				NOT NULL,
 		description			TEXT,
 
