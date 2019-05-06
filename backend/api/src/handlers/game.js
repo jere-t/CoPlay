@@ -1,5 +1,5 @@
 // handlers/game.js
-import { dbGetAllGames, dbGetGameById, dbGetAllGamesByAdvanceSearch, dbAddGame, dbCheckAvailable, dbUpdateGame, dbDeleteGame } from '../models/game';
+import { dbGetAllGames, dbGetGameById, dbGetAllGamesByAdvanceSearch, dbGetAllConnectGamesByAdvanceSearch, dbAddGame, dbCheckAvailable, dbUpdateGame, dbDeleteGame } from '../models/game';
 
 //Get all games
 export const getAllGames = (request, reply) => {
@@ -61,11 +61,44 @@ export const getGameById = (request, reply) => {
         )).code(500);
     });
 }
+
 //Get all game by advance search
 export const getAllGamesByAdvanceSearch = (request, reply) => {
     let date = request.params.date;
     let idClub = parseInt(request.params.idClub);
     return dbGetAllGamesByAdvanceSearch(date, idClub).then(data => {
+        if (data == null) {
+            return reply.response(JSON.stringify(
+                {
+                    "error": {
+                        "error_type": "DATABASE_REQUIREMENTS",
+                        "error_message": "id doesn't exist!"
+                    }
+                }
+            )).code(404);
+        }
+        else {
+            return reply.response(data).code(200);
+        }
+    }).catch((error) => {
+        console.log(error);
+        return reply.response(JSON.stringify(
+            {
+                "error": {
+                    "error_type": "DATABASE_ERROR",
+                    "error_message": "Unspecified_server_error",
+                    "inner_error": error.body
+                }
+            }
+        )).code(500);
+    });
+}
+
+//Get all game by advance search
+export const getAllConnectGamesByAdvanceSearch = (request, reply) => {
+    let date = request.params.date;
+    let idClub = parseInt(request.params.idClub);
+    return dbGetAllConnectGamesByAdvanceSearch(date, idClub).then(data => {
         if (data == null) {
             return reply.response(JSON.stringify(
                 {

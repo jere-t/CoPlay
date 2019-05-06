@@ -1,7 +1,7 @@
 // routes/game.js
 
 //routes for table game
-import { getAllGames, getGameById, getAllGamesByAdvanceSearch, addGame, updateGame, deleteGame } from '../handlers/game';
+import { getAllGames, getGameById, getAllGamesByAdvanceSearch, getAllConnectGamesByAdvanceSearch, addGame, updateGame, deleteGame } from '../handlers/game';
 //Joi with date extension
 const BaseJoi = require('joi');
 const Extension = require('joi-date-extensions');
@@ -111,6 +111,63 @@ const game = [
       method: 'GET',
       path: '/game/advance/{date}&{idClub}',
       handler: getAllGamesByAdvanceSearch,
+      options: {
+          // JOI validation for the request
+          validate: {
+              params: {
+                  date: Joi.date().format('YYYY-MM-DD'),
+                  idClub: Joi.number().integer()
+              }
+          },
+          // API Documentation Generation
+          tags: ['api'],
+          description: 'Get the list of all games with a advance search ',
+          plugins: {
+              'hapi-swagger': {
+                  // description of all possible responses provided by the API with their HTTP code
+                  responses: {
+                      '200': {
+                          'description': 'Success',
+                          'schema': Joi.array().items(gameSchema)
+                      },
+                      '400': {
+                          'description': 'Bad Request',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  statusCode: '400',
+                                  error: 'Bad Request',
+                                  message: 'Invalid request params input'
+                              }),
+                          })
+                      },
+                      '404': {
+                          'description': 'Not Found',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'DATABASE_REQUIREMENTS',
+                                  error_message: 'No existing data'
+                              }),
+                          })
+                      },
+                      '500': {
+                          'description': 'Internal server error',
+                          'schema': Joi.object({
+                              error: Joi.object({
+                                  error_type: 'SERVER_ERROR',
+                                  error_message: 'Unspecified_server_error',
+                                  inner_error: '<ERROR_MESSAGE>'
+                              }),
+                          })
+                      }
+                  }
+              }
+          },
+      }
+  },
+  {
+      method: 'GET',
+      path: '/game/advanceconnect/{date}&{idClub}',
+      handler: getAllConnectGamesByAdvanceSearch,
       options: {
           // JOI validation for the request
           validate: {

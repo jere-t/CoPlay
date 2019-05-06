@@ -10,12 +10,13 @@ import Typography from '@material-ui/core/Typography';
 class GameCard extends Component {
 
   render() {
-    const { classes } = this.props;
+    const { classes, game } = this.props;
+    console.log(game);
     return (
       <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.title} color="textSecondary" gutterBottom>
-            Created by username
+            Created by {game.cpUser.firstname} {game.cpUser.lastname}
           </Typography>
           <Typography variant="h5" className={classes.pos}  component="h2">
             30.12.1993 - 10:00

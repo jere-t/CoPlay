@@ -30,5 +30,9 @@ module.exports = Joi.object().keys(
         duration: Joi.number().integer(),
         startDate: Joi.date().format('YYYY-MM-DD HH:mm'),
         description: Joi.string(),
+        Join: Joi.object().keys({
+          fkUserJoin: Joi.number().integer().required(),
+          fkGameJoin: Joi.number().integer().required(),
+        }),
       }),
     });

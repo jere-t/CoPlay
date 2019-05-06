@@ -25,6 +25,15 @@ export const dbGetAllGamesByAdvanceSearch = (date, idClub) => {
          .options({ nestTables: true })
          .whereBetween('startDate', [date, moment(date).add(1, 'days').toDate()]).where({ fkClub: idClub}).select().orderBy('startDate');
 };
+//Querry to get games from Game table with a date, club and a sport
+export const dbGetAllConnectGamesByAdvanceSearch = (date, idClub) => {
+   return knex.from('cpGame')
+         .leftJoin('cpPlayground', 'cpGame.fkPlayground', '=', 'cpPlayground.idPg')
+         .leftJoin('cpUser', 'cpGame.fkUserCreator', '=', 'cpUser.idUser')
+         .leftJoin('cpJoin', 'cpGame.idGame', '=', 'cpJoin.fkGameJoin')
+         .options({ nestTables: true })
+         .whereBetween('startDate', [date, moment(date).add(1, 'days').toDate()]).where({ fkClub: idClub, isPrivate: false}).select().orderBy('startDate');
+};
 
 //add a game from cpGame table
 export const dbAddGame = (req) => {

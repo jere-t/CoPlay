@@ -19,10 +19,8 @@ class Booking extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      activeSport: 1,
       date: moment().format('YYYY-MM-DD'),
     };
-    //this.fetchGames = this.addUsers.bind(this);
   }
 
   componentDidMount() {
@@ -32,7 +30,7 @@ class Booking extends Component {
   }
 
   handleChangeDate = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ date: event.target.value });
     this.props.fetchGames( this.props.activeClubId, event.target.value);
   };
 
@@ -46,7 +44,6 @@ class Booking extends Component {
     const sportTab = this.props.sports.map((sport, index) =>
       <Tab label={sport.cpSport.nameSport} value={sport.cpSport.idSport} key={index} />
     );
-
 
     return (
       <div>
@@ -81,7 +78,6 @@ class Booking extends Component {
   }
 }
 
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -90,6 +86,11 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
 
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
   },
 });
 
