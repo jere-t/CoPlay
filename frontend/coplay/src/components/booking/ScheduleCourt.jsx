@@ -2,8 +2,6 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -16,7 +14,6 @@ class ScheduleCourt extends Component {
     open: false,
     fkPlayground: 0,
     time: moment().format('HH:mm'),
-    date: moment().format('YYYY-MM-DD'),
   };
 
   handleSelectEvent = (event) => {
@@ -32,7 +29,6 @@ class ScheduleCourt extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     const localizer = BigCalendar.momentLocalizer(moment);
     const courtResourceMap = this.props.courts.map((court) =>
       ({
@@ -47,6 +43,7 @@ class ScheduleCourt extends Component {
         resourceId: game.cpGame.fkPlayground,
       })
     );
+    console.log(myEventsList);
 
     return (
       <div>
@@ -59,7 +56,7 @@ class ScheduleCourt extends Component {
             defaultView='day'
             views={['day']}
             style={{ height: '70vh' }}
-            getNow={() => moment(this.state.date).toDate()}
+            getNow={() => moment(this.props.date).toDate()}
             toolbar={false}
             resources={courtResourceMap}
             resourceIdAccessor="idPg"
@@ -69,15 +66,11 @@ class ScheduleCourt extends Component {
             min={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), 25201, 'seconds')}
             max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -7200, 'seconds')}
         />
-      <CreateGame open={this.state.open} handleClose={this.handleClose} date={this.state.date} time={this.state.time} idPg={this.state.fkPlayground} />
+      <CreateGame open={this.state.open} handleClose={this.handleClose} date={this.props.date} time={this.state.time} idPg={this.state.fkPlayground} />
     </div>
     );
   }
 }
-
-ScheduleCourt.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 const mapStateToProps = state => ({
   games: state.game.games,
@@ -85,4 +78,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps) (withStyles(styles)(ScheduleCourt));
+export default connect(mapStateToProps) (ScheduleCourt);

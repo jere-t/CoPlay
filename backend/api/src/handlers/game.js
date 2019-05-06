@@ -98,7 +98,8 @@ export const getAllGamesByAdvanceSearch = (request, reply) => {
 export const getAllConnectGamesByAdvanceSearch = (request, reply) => {
     let date = request.params.date;
     let idClub = parseInt(request.params.idClub);
-    return dbGetAllConnectGamesByAdvanceSearch(date, idClub).then(data => {
+    let idSport = parseInt(request.params.idSport);
+    return dbGetAllConnectGamesByAdvanceSearch(date, idClub, idSport).then(data => {
         if (data == null) {
             return reply.response(JSON.stringify(
                 {

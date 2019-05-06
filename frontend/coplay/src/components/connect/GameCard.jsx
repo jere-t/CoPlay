@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import apiRoot from "../../constants/AppConstants";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -6,12 +7,35 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import moment from 'moment';
 
 class GameCard extends Component {
+  _isMounted = false;
+  state = {
+    nbPlayer: 0,
+  }
+
+  componentDidMount() {
+    this._isMounted = true;
+    fetch(`${apiRoot}/join/game/${this.props.game.cpGame.idGame}`)
+      .then( (resp) => {
+          resp.json().then((data) => {
+            if (this._isMounted) {
+              this.setState({nbPlayer: data.length,});
+            }
+          });
+        }
+      ).catch(function(err) {
+        console.log(err);
+      });
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   render() {
     const { classes, game } = this.props;
-    console.log(game);
     return (
       <Card className={classes.card}>
         <CardContent>
@@ -19,17 +43,17 @@ class GameCard extends Component {
             Created by {game.cpUser.firstname} {game.cpUser.lastname}
           </Typography>
           <Typography variant="h5" className={classes.pos}  component="h2">
-            30.12.1993 - 10:00
+            {moment(game.cpGame.startDate).format("DD.MM.YYYY")} - {moment(game.cpGame.startDate).format("HH.mm")}
           </Typography>
           <Typography className={classes.pos} component="p">
-            Looking for medium-level player
+            {game.cpGame.description}
           </Typography>
           <Typography  color="textSecondary">
-            2 of 4 players have joined
+            {this.state.nbPlayer} of {game.cpGame.isSingle?"2":"4"} players have joined
           </Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={this.props.handleJoin(1)} id={1} name="1" color="primary">
+          <Button onClick={this.props.handleJoin(game.cpGame.idGame)} id={1} name="1" color="primary">
             Join the game!
           </Button>
         </CardActions>

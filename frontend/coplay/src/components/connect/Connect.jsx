@@ -24,16 +24,18 @@ class Connect extends Component {
 
   componentDidMount() {
     this.props.fetchSport(this.props.activeClubId);
-    this.props.fetchGamesConnect( this.props.activeClubId, this.state.date);
+    this.props.fetchGamesConnect( this.props.activeClubId, this.props.activeSportId, this.state.date);
   }
 
   handleChangeDate = (event) => {
     this.setState({ date: event.target.value });
-    this.props.fetchGamesConnect( this.props.activeClubId, event.target.value);
+    this.props.fetchGamesConnect( this.props.activeClubId, this.props.activeSportId, event.target.value);
   };
 
   handleChange = (event, activeSport) => {
+    console.log(activeSport);
     this.props.changeActiveSport(activeSport);
+    this.props.fetchGamesConnect( this.props.activeClubId, activeSport, this.state.date);
   };
 
   render() {
@@ -69,7 +71,7 @@ class Connect extends Component {
             }}
           />
         </form>
-        <AvailableGame idSport={this.props.activeSportId}/>
+        <AvailableGame idSport={this.props.activeSportId} date={this.state.date}/>
       </div>
     );
   }
@@ -104,7 +106,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch) => ({
     fetchSport: (idClub) => dispatch(fetchSport(idClub)),
     changeActiveSport: (activeSport) => dispatch({ type: 'CHANGE_ACTIVE_SPORT', activeSportId: activeSport }),
-    fetchGamesConnect: (idClub, date) => dispatch(fetchGamesConnect(idClub, date))
+    fetchGamesConnect: (idClub, idSport, date) => dispatch(fetchGamesConnect(idClub, idSport, date))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Connect));

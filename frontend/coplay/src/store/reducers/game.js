@@ -10,6 +10,7 @@ const game = (state = initState, action) => {
   let nextState;
   switch (action.type) {
     case 'GET_GAMES_SUCCESS':
+    console.log("dfghfdsfdfknfbgjdfnbvhjmcn");
       nextState = {
           ...state,
           games: action.games,

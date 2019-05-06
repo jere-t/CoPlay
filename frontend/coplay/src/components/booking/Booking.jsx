@@ -72,7 +72,7 @@ class Booking extends Component {
             }}
           />
         </form>
-        <ScheduleCourt idSport={this.props.activeSportId}/>
+        <ScheduleCourt idSport={this.props.activeSportId} date={this.state.date}/>
       </div>
     );
   }

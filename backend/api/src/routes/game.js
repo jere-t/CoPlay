@@ -166,19 +166,20 @@ const game = [
   },
   {
       method: 'GET',
-      path: '/game/advanceconnect/{date}&{idClub}',
+      path: '/game/advanceconnect/{date}&{idClub}&{idSport}',
       handler: getAllConnectGamesByAdvanceSearch,
       options: {
           // JOI validation for the request
           validate: {
               params: {
                   date: Joi.date().format('YYYY-MM-DD'),
-                  idClub: Joi.number().integer()
+                  idClub: Joi.number().integer(),
+                  idSport: Joi.number().integer()
               }
           },
           // API Documentation Generation
           tags: ['api'],
-          description: 'Get the list of all games with a advance search ',
+          description: 'Get the list of all games with a advance search only connect',
           plugins: {
               'hapi-swagger': {
                   // description of all possible responses provided by the API with their HTTP code

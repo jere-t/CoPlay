@@ -100,10 +100,8 @@ class CreateGame extends Component {
         join.fkUserJoin=this.state.username4Id;
         this.props.addJoin(join)
       }
-
     }
   }
-
 
   render() {
     const { classes } = this.props;

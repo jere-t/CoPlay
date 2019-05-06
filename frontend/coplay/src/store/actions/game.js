@@ -42,6 +42,7 @@ export const fetchGames = (idClub, date) => {
       const resp = await fetch(url, params);
       //console.log(resp)
       if (resp.ok) {
+        console.log("frgdhgsf");
         //to json
         const data = await resp.json();
         dispatch({ type: 'GET_GAMES_SUCCESS', games: data });
@@ -52,16 +53,16 @@ export const fetchGames = (idClub, date) => {
     } catch (e) {
       console.log(e)
       dispatch({ type: 'GET_GAMES_ERROR', });
-    } finally {
-      dispatch({ type: 'GET_GAMES_ERROR', });
+    }  finally {
+      return {type: null};
     }
   }
 };
 
-export const fetchGamesConnect = (idClub, date) => {
+export const fetchGamesConnect = (idClub, idSport, date) => {
   return async (dispatch, getState) => {
     try {
-      const url = `${apiRoot}/game/advanceconnect/${date}&${idClub}`;
+      const url = `${apiRoot}/game/advanceconnect/${date}&${idClub}&${idSport}`;
       const params = {
         method: 'GET',
       };
