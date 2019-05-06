@@ -20,7 +20,9 @@ class Navigator extends React.Component {
 
   render() {
     const { classes } = this.props;
-
+    const test = classes.hide; //if log --> or --> ???
+    //Better to do Private route
+    //https://stackoverflow.com/questions/47476186/when-user-is-not-logged-in-redirect-to-login-reactjs
     return(
       <BrowserRouter>
           <AppBar position="sticky" hide="true">
@@ -37,7 +39,7 @@ class Navigator extends React.Component {
               <Button disableRipple={true} component={Link} to="/account">
                 Account
               </Button>
-              <Button disableRipple={false} component={Link} to="/admin" className={classes.hide}>
+              <Button disableRipple={false} component={Link} to="/admin" className={test}>
                 Admin
               </Button>
               <Button disableRipple={false} component={Link} to="/">
@@ -72,7 +74,7 @@ const styles = {
     textAlign: 'left',
   },
   hide: {
-    visibility: 'hidden'
+    visibility: 'hidden',
   },
 };
 
