@@ -124,7 +124,7 @@ CREATE TABLE cpGame (
 		isPrivate				BOOLEAN         NOT NULL,
 		duration   			INTEGER			 		NOT NULL,
 		startDate				DATETIME				NOT NULL,
-		startTime       TIME		 				NOT NULL,
+		startTime       TIME,
 		description			TEXT,
 
 		CONSTRAINT PK_cpGame PRIMARY KEY (idGame),

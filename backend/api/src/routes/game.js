@@ -109,15 +109,14 @@ const game = [
   },
   {
       method: 'GET',
-      path: '/game/advance/{date}&{idClub}&{idSport}',
+      path: '/game/advance/{date}&{idClub}',
       handler: getAllGamesByAdvanceSearch,
       options: {
           // JOI validation for the request
           validate: {
               params: {
                   date: Joi.date().format('YYYY-MM-DD'),
-                  idClub: Joi.number().integer(),
-                  idSport: Joi.number().integer()
+                  idClub: Joi.number().integer()
               }
           },
           // API Documentation Generation

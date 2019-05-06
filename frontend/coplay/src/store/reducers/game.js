@@ -2,6 +2,7 @@
 
 const initState = {
   games: [],
+  idLastGame: null,
 }
 
 const game = (state = initState, action) => {
@@ -16,8 +17,14 @@ const game = (state = initState, action) => {
       //It is for security reason, if something went wrong during the "creation" of the new state, you keep the old one
       return nextState || state;
     case 'CREATE_GAME_SUCCESS':
-      console.log('create game success');
-      return state;
+      console.log(action.idLastGame[0]);
+      nextState = {
+          ...state,
+          idLastGame: action.idLastGame[0],
+      }
+      //!!! Important thing to do. Return nextState but if it is undefined, return state
+      //It is for security reason, if something went wrong during the "creation" of the new state, you keep the old one
+      return nextState || state;
     case 'CREATE_GAME_ERROR':
       console.log('create game error');
       return state;

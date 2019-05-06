@@ -19,6 +19,7 @@ const ListPlayers = (props) => {
           value={username3}
           name="username3"
           onChange={handleChange}
+          error={props.errorU3}
         />
       </FormControl>
       <FormControl className={classes.margin}>
@@ -28,6 +29,7 @@ const ListPlayers = (props) => {
           value={username4}
           name="username4"
           onChange={handleChange}
+          error={props.errorU4}
         />
       </FormControl>
     </div>
@@ -39,10 +41,7 @@ const ListPlayers = (props) => {
       <FormControl className={classes.margin}>
         <InputLabel htmlFor="username1">Username player 1: </InputLabel>
         <Input
-          id="username1"
           value={username1}
-          name="username1"
-          onChange={handleChange}
           disabled
         />
       </FormControl>
@@ -53,6 +52,7 @@ const ListPlayers = (props) => {
           value={username2}
           name="username2"
           onChange={handleChange}
+          error={props.errorU2}
         />
       </FormControl>
       {isSingle==="1"?"":doublePlayer}

@@ -19,11 +19,11 @@ export const dbGetGameById = (id) => {
           .where('idGame', id).first().select();
 };
 //Querry to get games from Game table with a date, club and a sport
-export const dbGetAllGamesByAdvanceSearch = (date, idClub, idSport) => {
+export const dbGetAllGamesByAdvanceSearch = (date, idClub) => {
    return knex.from('cpGame')
          .leftJoin('cpPlayground', 'cpGame.fkPlayground', '=', 'cpPlayground.idPg')
          .options({ nestTables: true })
-         .whereBetween('startDate', [date, moment(date).add(1, 'days').toDate()]).where({ fkClub: idClub, fkSport: idSport }).select().orderBy('startDate');
+         .whereBetween('startDate', [date, moment(date).add(1, 'days').toDate()]).where({ fkClub: idClub}).select().orderBy('startDate');
 };
 
 //add a game from cpGame table

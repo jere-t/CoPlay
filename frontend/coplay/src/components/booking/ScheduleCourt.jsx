@@ -2,10 +2,8 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchGames } from '../../store/actions/game';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
 import BigCalendar from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -20,15 +18,6 @@ class ScheduleCourt extends Component {
     fkPlayground: 0,
     time: moment().format('HH:mm'),
     date: moment().format('YYYY-MM-DD'),
-  };
-
-  componentDidMount() {
-    this.props.fetchGames( this.props.activeClubId, this.props.activeSportId, moment().format('YYYY-MM-DD'));
-  }
-
-  handleChangeDate = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-    this.props.fetchGames( this.props.activeClubId, this.props.activeSportId, event.target.value);
   };
 
   handleSelectEvent = (event) => {
@@ -62,20 +51,6 @@ class ScheduleCourt extends Component {
 
     return (
       <div>
-        <form className={classes.container} noValidate>
-          <TextField
-            id="date"
-            label="Date"
-            type="date"
-            name="date"
-            defaultValue={moment().format('YYYY-MM-DD')}
-            className={classes.textField}
-            onChange={this.handleChangeDate}
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-        </form>
         <div>
           <BigCalendar
               selectable
@@ -127,15 +102,9 @@ ScheduleCourt.propTypes = {
 
 
 const mapStateToProps = state => ({
-  activeClubId: state.club.activeClubId,
-  activeSportId: state.sport.activeSportId,
   games: state.game.games,
   courts: state.playground.courts,
 });
 
 
-const mapDispatchToProps = (dispatch) => ({
-    fetchGames: (idClub, idSport, date) => dispatch(fetchGames(idClub, idSport, date))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(ScheduleCourt));
+export default connect(mapStateToProps) (withStyles(styles)(ScheduleCourt));

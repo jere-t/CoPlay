@@ -26,6 +26,30 @@ export const getUserById = (id) => {
   }
 };
 
+export const getUserByUsername = (username) => {
+  return "Coucou";
+  return async (dispatch, getState) => {
+    try {
+      const url = `${apiRoot}/user/username/${username}`;
+      const method = 'GET';
+
+      const resp = await fetch(url, { method });
+      //console.log(resp)
+      if (resp.ok) {
+        //to json
+        const data = await resp.json();
+        dispatch({ type: 'GET_USER_SUCCESS', activeUser: data });
+      } else {
+        throw Error;
+      }
+    } catch (e) {
+      console.log(e)
+    } finally {
+      return {type: null};
+    }
+  }
+};
+
 export const loginCheck = (username, passwordHash, idClub) => {
   let user = {username: username, passwordHash : passwordHash, idClub: idClub}
   console.log(user);

@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSport } from '../../store/actions/sport';
 import { fetchCourt } from '../../store/actions/playground';
+import { fetchGames } from '../../store/actions/game';
+import TextField from '@material-ui/core/TextField';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -13,15 +16,25 @@ import Tab from '@material-ui/core/Tab';
 import ScheduleCourt from './ScheduleCourt';
 
 class Booking extends Component {
-  state = {
-    //When sport is create need to config this state
-    activeSport: 1,
-  };
+  constructor (props) {
+    super(props);
+    this.state = {
+      activeSport: 1,
+      date: moment().format('YYYY-MM-DD'),
+    };
+    //this.fetchGames = this.addUsers.bind(this);
+  }
 
   componentDidMount() {
     this.props.fetchSport(this.props.activeClubId);
     this.props.fetchCourt(this.props.activeClubId, this.props.activeSportId);
+    this.props.fetchGames( this.props.activeClubId, this.state.date);
   }
+
+  handleChangeDate = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+    this.props.fetchGames( this.props.activeClubId, event.target.value);
+  };
 
   handleChange = (event, activeSport) => {
     this.props.changeActiveSport(activeSport);
@@ -48,6 +61,20 @@ class Booking extends Component {
             {sportTab}
           </Tabs>
         </Paper>
+        <form className={classes.container} noValidate>
+          <TextField
+            id="date"
+            label="Date"
+            type="date"
+            name="date"
+            defaultValue={moment().format('YYYY-MM-DD')}
+            className={classes.textField}
+            onChange={this.handleChangeDate}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </form>
         <ScheduleCourt idSport={this.props.activeSportId}/>
       </div>
     );
@@ -55,11 +82,16 @@ class Booking extends Component {
 }
 
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1,
   },
-};
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+
+  },
+});
 
 Booking.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -76,6 +108,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchSport: (idClub) => dispatch(fetchSport(idClub)),
     changeActiveSport: (activeSport) => dispatch({ type: 'CHANGE_ACTIVE_SPORT', activeSportId: activeSport }),
     fetchCourt: (idClub, idSport) => dispatch(fetchCourt(idClub, idSport)),
+    fetchGames: (idClub, date) => dispatch(fetchGames(idClub, date))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Booking));
