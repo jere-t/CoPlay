@@ -37,7 +37,7 @@ class Navigator extends React.Component {
               <Button disableRipple={true} component={Link} to="/account">
                 Account
               </Button>
-              <Button disableRipple={false} component={Link} to="/admin">
+              <Button disableRipple={false} component={Link} to="/admin" className={classes.hide}>
                 Admin
               </Button>
               <Button disableRipple={false} component={Link} to="/">
@@ -70,6 +70,9 @@ const styles = {
   grow: {
     flexGrow: 1,
     textAlign: 'left',
+  },
+  hide: {
+    visibility: 'hidden'
   },
 };
 
