@@ -6,7 +6,6 @@ import { addJoin } from '../../store/actions/join';
 import { fetchGamesConnect } from '../../store/actions/game';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import moment from 'moment';
 
 import GameCard from './GameCard';
 

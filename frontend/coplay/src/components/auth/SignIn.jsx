@@ -35,14 +35,10 @@ class SignIn extends Component {
   handleClickShowPassword = () => {
     this.setState(state => ({ showPassword: !state.showPassword }));
   };
-  handleSubmit = (e) => {
+  handleSubmit =  async (e) => {
     e.preventDefault();
-    console.log(this.props);
-    this.props.loginCheck(this.state.username, this.state.password, this.props.activeClubId);
-
-
-    this.setState({ redirect: true });
-
+    await this.props.loginCheck(this.state.username, this.state.password, this.props.activeClubId);
+    this.setState({ redirect: true })
   };
 
   renderRedirect = () => {
@@ -53,7 +49,6 @@ class SignIn extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log(this.state);
     return (
 
       <div className={classes.root}>
@@ -76,7 +71,6 @@ class SignIn extends Component {
               />
             </FormControl>
             <PasswordInput name="password" password={this.state.password} handleChange={this.handleChange} />
-
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -133,7 +127,6 @@ SignIn.propTypes = {
 
 const mapStateToProps = state => ({
     activeClubId: state.club.activeClubId,
-    activeUser: state.account.activeUser
 });
 
 

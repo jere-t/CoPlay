@@ -5,7 +5,7 @@ const initState = {
 }
 
 const join = (state = initState, action) => {
-  let nextState;
+  //let nextState;
   switch (action.type) {
     case 'CREATE_JOIN_SUCCESS':
       return state;

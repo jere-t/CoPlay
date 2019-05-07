@@ -3,7 +3,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Link} from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,18 +15,24 @@ import Booking from '../views/booking';
 import Connect from '../views/connect';
 import Account from '../views/account';
 import Admin from '../views/admin';
+import PrivateRoute from './PrivateRoute';
 
 class Navigator extends React.Component {
 
   render() {
+    console.log(this.props.isAuthenticated);
     const { classes } = this.props;
-    const test = classes.hide; //if log --> or --> ???
+    const hide = this.props.isAuthenticated?classes.show:classes.hide; //if log --> or --> ???
     //Better to do Private route
     //https://stackoverflow.com/questions/47476186/when-user-is-not-logged-in-redirect-to-login-reactjs
     return(
       <BrowserRouter>
-          <AppBar position="sticky" hide="true">
+          <AppBar position="sticky" hide="true" className={hide}>
             <Toolbar>
+              <Button disableRipple={false} component={Link} to="/admin" className={classes.hide}>
+                Admin
+              </Button>
+
               <Typography variant="h6" color="inherit" className={classes.grow} noWrap>
                 Connect & Play
               </Typography>
@@ -39,20 +45,17 @@ class Navigator extends React.Component {
               <Button disableRipple={true} component={Link} to="/account">
                 Account
               </Button>
-              <Button disableRipple={false} component={Link} to="/admin" className={test}>
-                Admin
-              </Button>
-              <Button disableRipple={false} component={Link} to="/">
-                {this.props.activeUser?"Logout":"Login"}
+              <Button disableRipple={false} component={Link} to="/" onClick={()=> this.props.logout()}>
+                Logout
               </Button>
             </Toolbar>
           </AppBar>
           <Switch>
             <Route exact path="/" component={Login}/>
-            <Route path="/booking" component={Booking}/>
-            <Route path="/connect" component={Connect}/>
-            <Route path="/account" component={Account}/>
-            <Route path="/admin" component={Admin}/>
+            <PrivateRoute isLog={this.props.isAuthenticated} path="/booking" component={Booking}/>
+            <PrivateRoute isLog={this.props.isAuthenticated} path="/connect" component={Connect}/>
+            <PrivateRoute isLog={this.props.isAuthenticated} path="/account" component={Account}/>
+            <PrivateRoute isLog={this.props.isAuthenticated} path="/admin" component={Admin}/>
             <Route render={() => <h1>Error 404: Page not found</h1>}/>
           </Switch>
       </ BrowserRouter>
@@ -76,13 +79,20 @@ const styles = {
   hide: {
     visibility: 'hidden',
   },
+  show: {
+    visibility: 'show',
+  },
 };
 
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
 const mapStateToProps = state => ({
-    activeUser: state.club.activeUser
+    isAuthenticated: state.account.isAuthenticated,
 });
 
-export default connect(mapStateToProps) (withStyles(styles)(Navigator));
+const mapDispatchToProps = (dispatch) => ({
+    logout: () => dispatch({ type: 'LOGOUT'}),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Navigator));
 //export default connect(mapStateToProps, { logout })(withStyles(styles)(Navigator));
