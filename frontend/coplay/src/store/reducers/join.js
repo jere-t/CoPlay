@@ -1,17 +1,25 @@
 // store/reducers/join.js
 
 const initState = {
-
+  isSucceed: true,
 }
 
 const join = (state = initState, action) => {
-  //let nextState;
+  let nextState;
   switch (action.type) {
     case 'CREATE_JOIN_SUCCESS':
-      return state;
+    nextState = {
+        ...state,
+        isSucceed: true,
+    }
+    return nextState || state;
     case 'CREATE_JOIN_ERROR':
       console.log('create join error');
-      return state;
+      nextState = {
+          ...state,
+          isSucceed: false,
+      }
+      return nextState || state;
     default:
       return state
   }

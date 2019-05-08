@@ -30,16 +30,10 @@ class DialogEditPwd extends Component {
 
   handleChange = prop => event => {
     this.setState({ [event.target.name]: event.target.value });
-    console.log(this.state);
   };
 
   checkOldPassword = (pwd) => {
     let hash =this.props.user.passwordHash;
-    bcrypt.compare(pwd, hash, function(err, res) {
-        console.log(res);
-    });
-    return true;
-
     if (bcrypt.compareSync(pwd, hash)) {
       return true;
     } else {
@@ -49,7 +43,7 @@ class DialogEditPwd extends Component {
   };
   checkNewPassword = (pwd, pwdRpt) => {
     if (pwd === pwdRpt) {
-      if (pwd.length > 6) { return true; } else {
+      if (pwd.length > 5) { return true; } else {
         this.setState({errorMsg : 'The new password need to have 6 characters at least'});
         return false;
       }

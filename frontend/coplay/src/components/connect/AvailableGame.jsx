@@ -8,18 +8,31 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 import GameCard from './GameCard';
+import Snackbar from '../SnackbarInfo';
 
 class AvailableGame extends Component {
+  state = {
+    open: false,
+    msg: '',
+  };
 
-  handleJoin = (idGame) => (event) => {
+  handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ open: false });
+  };
+
+  handleJoin =  (idGame) => async (event) => {
     let join = {
       fkUserJoin: this.props.activeUser.idUser,
       fkGameJoin: idGame
     }
-    this.props.addJoin(join).then(
-      this.props.fetchGamesConnect( this.props.activeClubId, this.props.idSport, this.props.date)
-    );
-    console.log(this.props.activeUser.idUser+ "joined game: "+ idGame);
+    await this.props.addJoin(join);
+    if (this.props.isSucceed) {
+      this.setState({ open: true, msg: "Game joined!" });
+    } else {this.setState({ open: true, msg: "Error when you try to join this game!" });}
+    this.props.fetchGamesConnect( this.props.activeClubId, this.props.idSport, this.props.date);
   }
 
   render() {
@@ -30,6 +43,7 @@ class AvailableGame extends Component {
     return (
       <div className={classes.cards}>
         {gameCards}
+        <Snackbar open={this.state.open} msg={this.state.msg} handleClose={this.handleClose} />
       </div>
     );
   }
@@ -50,6 +64,7 @@ const mapStateToProps = state => ({
   activeClubId: state.club.activeClubId,
   activeUser: state.account.activeUser,
   connectGames: state.game.connectGames,
+  isSucceed: state.join.isSucceed,
 });
 
 const mapDispatchToProps = (dispatch) => ({
