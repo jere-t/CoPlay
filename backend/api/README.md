@@ -26,3 +26,7 @@ The first thing to do is to configure the file on the path "./src/db/DB_CONFIG.j
 Then the script : `npm run db:init` can be run. 
 
 Finally, you can run the script `npm start` to launch the API
+
+The back-end can be access on http://localhost:3001/api.
+
+A documentation is automatically created and is reachable at the link http://localhost:3001/api/documentation
