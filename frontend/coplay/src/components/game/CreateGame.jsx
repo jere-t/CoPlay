@@ -61,7 +61,6 @@ class CreateGame extends Component {
     } else { this.setState({ [e]: true }) }
   };
 
-
   handleCreate = () => {
     if (!this.state.isPrivate || (this.state.isSingle && !this.state.username2Error) || (!this.state.username2Error && !this.state.username3Error && !this.state.username4Error ) ) {
       let game = {
