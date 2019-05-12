@@ -20,7 +20,7 @@ class ShowInfoEvent extends Component {
 
   render() {
     const { fullScreen } = this.props;
-    const info = this.props.event.title==="OpenParty"?", you can connect with this game in the Connect page.":"";
+    const info = this.props.event.title==="OpenParty"?", you can connect with this game on the Connect page.":"";
 
     return (
       <Dialog
