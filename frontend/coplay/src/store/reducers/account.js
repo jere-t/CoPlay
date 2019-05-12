@@ -3,6 +3,7 @@
 export const  initState = {
   activeUser: null,
   isAuthenticated: false,
+  loginError: false,
 }
 
 const account  = (state = initState, action) => {
@@ -12,18 +13,23 @@ const account  = (state = initState, action) => {
       nextState = {
           ...state,
           activeUser: action.activeUser,
+          loginError: action.loginError,
           isAuthenticated: true,
       }
       //Return nextState but if it is undefined, return state
       //It is for security reason, if something went wrong during the "creation" of the new state, you keep the old one
+      return nextState || state;
+    case 'LOGIN_ERROR':
+      nextState = {
+          ...state,
+          loginError: action.loginError,
+      }
       return nextState || state;
     case 'GET_USER_SUCCESS':
       nextState = {
           ...state,
           activeUser: action.activeUser,
       }
-      //Return nextState but if it is undefined, return state
-      //It is for security reason, if something went wrong during the "creation" of the new state, you keep the old one
       return nextState || state;
     case 'LOGOUT':
       nextState = {

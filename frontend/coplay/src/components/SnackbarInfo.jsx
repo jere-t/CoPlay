@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -24,9 +23,6 @@ class SnackbarInfo extends React.Component {
           }}
           message={<span id="message-id">{this.props.msg}</span>}
           action={[
-            <Button key="undo" color="secondary" size="small" onClick={this.props.handleClose}>
-              UNDO
-            </Button>,
             <IconButton
               key="close"
               aria-label="Close"
@@ -48,7 +44,7 @@ const styles = theme => ({
   },
 });
 
-Snackbar.propTypes = {
+SnackbarInfo.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 

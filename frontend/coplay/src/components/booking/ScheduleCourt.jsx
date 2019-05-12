@@ -8,16 +8,20 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import dates from './dates';//Not my file --> download on github
 
 import CreateGame from '../game/CreateGame';
+import ShowInfoEvent from './ShowInfoEvent';
 
 class ScheduleCourt extends Component {
   state = {
     open: false,
+    openInfo: false,
     fkPlayground: 0,
     time: moment().format('HH:mm'),
+    event: '',
   };
 
   handleSelectEvent = (event) => {
-    alert(event.title + " start: " +event.start);
+    this.setState({ openInfo: true, event: event });
+    //alert(event.title + " start: " +event.start);
   };
 
   handleSelectSlot = (event) => {
@@ -25,7 +29,7 @@ class ScheduleCourt extends Component {
   };
 
   handleClose = () => {
-    this.setState({open: false,})
+    this.setState({ open: false, openInfo: false,});
   };
 
   render() {
@@ -35,7 +39,7 @@ class ScheduleCourt extends Component {
         idPg: court.cpPlayground.idPg , nameCourt: court.cpPlayground.nameCourt,
       })
     );
-    const myEventsList = this.props.games.map((game) =>
+    const eventsList = this.props.games.map((game) =>
       ({
         title: game.cpGame.isPrivate?"Reservation":"OpenParty",
         start: moment(game.cpGame.startDate).toDate(),
@@ -43,7 +47,6 @@ class ScheduleCourt extends Component {
         resourceId: game.cpGame.fkPlayground,
       })
     );
-    console.log(myEventsList);
 
     return (
       <div>
@@ -52,7 +55,7 @@ class ScheduleCourt extends Component {
             onSelectEvent={this.handleSelectEvent}
             onSelectSlot={this.handleSelectSlot}
             localizer={localizer}
-            events={myEventsList}
+            events={eventsList}
             defaultView='day'
             views={['day']}
             style={{ height: '70vh' }}
@@ -63,10 +66,11 @@ class ScheduleCourt extends Component {
             resourceTitleAccessor="nameCourt"
             step={60}
             timeslots={1}
-            min={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), 25201, 'seconds')}
-            max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -7200, 'seconds')}
+            min={dates.add(dates.endOf(new Date(2019, 17, 1), 'day'), 25201, 'seconds')}
+            max={dates.add(dates.endOf(new Date(2019, 17, 1), 'day'), -7200, 'seconds')}
         />
       <CreateGame open={this.state.open} handleClose={this.handleClose} date={this.props.date} time={this.state.time} idPg={this.state.fkPlayground} />
+      <ShowInfoEvent open={this.state.openInfo} handleClose={this.handleClose} event={this.state.event} />
     </div>
     );
   }

@@ -20,11 +20,10 @@ import PrivateRoute from './PrivateRoute';
 class Navigator extends React.Component {
 
   render() {
-    console.log(this.props.isAuthenticated);
     const { classes } = this.props;
-    const hide = this.props.isAuthenticated?classes.show:classes.hide; //if log --> or --> ???
-    //Better to do Private route
-    //https://stackoverflow.com/questions/47476186/when-user-is-not-logged-in-redirect-to-login-reactjs
+
+    const hide = this.props.isAuthenticated?classes.show:classes.hide;
+
     return(
       <BrowserRouter>
           <AppBar position="sticky" hide="true" className={hide}>

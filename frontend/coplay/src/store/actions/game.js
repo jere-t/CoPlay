@@ -42,7 +42,6 @@ export const fetchGames = (idClub, date) => {
       const resp = await fetch(url, params);
       //console.log(resp)
       if (resp.ok) {
-        console.log("frgdhgsf");
         //to json
         const data = await resp.json();
         dispatch({ type: 'GET_GAMES_SUCCESS', games: data });

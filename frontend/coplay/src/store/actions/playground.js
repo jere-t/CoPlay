@@ -11,7 +11,6 @@ export const fetchCourt = (idClub, idSport) => {
       };
 
       const resp = await fetch(url, params);
-      //console.log(resp)
       if (resp.ok) {
         //to json
         const data = await resp.json();

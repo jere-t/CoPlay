@@ -51,7 +51,6 @@ export const getUserByUsername = (username) => {
 
 export const loginCheck = (username, passwordHash, idClub) => {
   let user = {username: username, passwordHash : passwordHash, idClub: idClub}
-  console.log(user);
   return async (dispatch, getState) => {
     try {
       const url = `${apiRoot}/user/login`;
@@ -62,12 +61,12 @@ export const loginCheck = (username, passwordHash, idClub) => {
       };
 
       const resp = await fetch(url, params);
-      //console.log(resp)
       if (resp.ok) {
         //to json
         const data = await resp.json();
-        dispatch({ type: 'LOGIN_SUCCESS', activeUser: data[0].cpUser });
+        dispatch({ type: 'LOGIN_SUCCESS', activeUser: data[0].cpUser, loginError: false });
       } else {
+        dispatch({ type: 'LOGIN_ERROR', loginError: true });
         console.log(resp);
         throw Error;
       }

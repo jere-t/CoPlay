@@ -49,6 +49,7 @@ class SignIn extends Component {
 
   render() {
     const { classes } = this.props;
+    const errorMsg = this.props.loginError?"The credential are not correct":""
     return (
 
       <div className={classes.root}>
@@ -57,6 +58,9 @@ class SignIn extends Component {
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h5">
             Sign in
+          </Typography>
+          <Typography variant="body1" className={classes.error}>
+            {errorMsg}
           </Typography>
           <form className={classes.form} onSubmit={this.handleSubmit}>
             <FormControl required fullWidth className={classes.margin}>
@@ -119,6 +123,9 @@ const styles = theme => ({
   button: {
     marginTop: theme.spacing.unit * 3,
   },
+  error: {
+    color: "red",
+  },
 });
 
 SignIn.propTypes = {
@@ -127,6 +134,7 @@ SignIn.propTypes = {
 
 const mapStateToProps = state => ({
     activeClubId: state.club.activeClubId,
+    loginError: state.account.loginError,
 });
 
 

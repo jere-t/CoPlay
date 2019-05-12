@@ -8,7 +8,6 @@ const playground = (state = initState, action) => {
   let nextState;
   switch (action.type) {
     case 'GET_COURTS_SUCCESS':
-      console.log(action.courts)
       nextState = {
           ...state,
           courts: action.courts,

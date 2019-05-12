@@ -30,8 +30,10 @@ class Booking extends Component {
   }
 
   handleChangeDate = (event) => {
-    this.setState({ date: event.target.value });
-    this.props.fetchGames( this.props.activeClubId, event.target.value);
+    if (event.target.value) {
+      this.setState({ date: event.target.value });
+      this.props.fetchGames( this.props.activeClubId, event.target.value);
+    }
   };
 
   handleChange = (event, activeSport) => {
