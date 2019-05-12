@@ -17,6 +17,14 @@ const account  = (state = initState, action) => {
       //Return nextState but if it is undefined, return state
       //It is for security reason, if something went wrong during the "creation" of the new state, you keep the old one
       return nextState || state;
+    case 'GET_USER_SUCCESS':
+      nextState = {
+          ...state,
+          activeUser: action.activeUser,
+      }
+      //Return nextState but if it is undefined, return state
+      //It is for security reason, if something went wrong during the "creation" of the new state, you keep the old one
+      return nextState || state;
     case 'LOGOUT':
       nextState = {
           ...state,

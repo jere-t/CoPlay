@@ -27,7 +27,6 @@ export const getUserById = (id) => {
 };
 
 export const getUserByUsername = (username) => {
-  return "Coucou";
   return async (dispatch, getState) => {
     try {
       const url = `${apiRoot}/user/username/${username}`;
@@ -67,8 +66,6 @@ export const loginCheck = (username, passwordHash, idClub) => {
       if (resp.ok) {
         //to json
         const data = await resp.json();
-
-        console.log(data[0].cpUser);
         dispatch({ type: 'LOGIN_SUCCESS', activeUser: data[0].cpUser });
       } else {
         console.log(resp);
@@ -83,7 +80,6 @@ export const loginCheck = (username, passwordHash, idClub) => {
 };
 
 export const updateUser = (user) => {
-  console.log(user);
   return async (dispatch, getState) => {
     const url = `${apiRoot}/user`;
     const params = {
@@ -93,10 +89,9 @@ export const updateUser = (user) => {
     };
 
     fetch(url , params)
-      .then(response => {
-        console.log("Success !!");
-        dispatch({ type: 'UPDATE_USER_SUCCESS'});
-        dispatch(getUserById(user.idUser));
+      .then(async response => {
+        await dispatch({ type: 'UPDATE_USER_SUCCESS'});
+        await dispatch(getUserById(user.idUser));
       })
       .catch(err => {
         console.log(err);

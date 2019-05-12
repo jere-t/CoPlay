@@ -18,14 +18,13 @@ import DialogEditPwd from './DialogEditPwd';
 
 class Account extends Component {
   state = {
-
     showPassword: false,
     openE: false,
     openP: false,
   };
 
   componentDidMount() {
-    this.props.getUserById(this.props.activeUser.idUser);
+    //this.props.getUserById(this.props.activeUser.idUser);
   }
 
   clickChangeEmail = () => {
@@ -35,18 +34,18 @@ class Account extends Component {
     this.setState({ openP: true });
   };
 
-  updateUser = (user) => {
-    console.log(user.passwordHash);
+  updateUser = async (user) => {
     this.props.updateUser(user);
     this.handleClose();
   }
 
-  handleClose = () => {
-    this.setState({ openE: false, openP: false});
+  handleClose = async () => {
+   this.setState({ openE: false, openP: false,});
   };
 
   render() {
     const { classes, activeUser} = this.props;
+    const email = this.props.activeUser.email;
     if (activeUser) {
       return (
         <div className={classes.root}>
@@ -83,7 +82,7 @@ class Account extends Component {
               <InputLabel htmlFor="email">Email: </InputLabel>
               <Input
                 id="email"
-                value={activeUser.email}
+                value={email}
                 disabled
               />
             </FormControl>
@@ -99,7 +98,7 @@ class Account extends Component {
             </div>
           </form>
           <Typography variant="h6" className={classes.title}>
-            Next games :
+            {/*Next games :*/}
           </Typography>
         </div>
       )
@@ -165,8 +164,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getUserById: (id) => dispatch(getUserById(id)),
-    updateUser: (user) => dispatch(updateUser(user))
+    getUserById: async (id) => await dispatch(getUserById(id)),
+    updateUser: async (user) => await dispatch(updateUser(user))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Account));

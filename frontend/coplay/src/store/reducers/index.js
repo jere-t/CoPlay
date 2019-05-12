@@ -2,7 +2,6 @@
 
 import { combineReducers } from 'redux';
 
-import auth from './auth';
 import account from './account';
 import game from './game';
 import join from './join';
@@ -12,7 +11,6 @@ import playground from './playground';
 
 const rootReducer = () => (
   combineReducers({
-    auth,
     account,
     game,
     join,
