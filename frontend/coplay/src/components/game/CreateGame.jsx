@@ -62,7 +62,6 @@ class CreateGame extends Component {
   };
 
   handleCreate = () => {
-    console.log(this.state.isPrivate);
     if (this.state.isPrivate==="0" || (this.state.isSingle && !this.state.username2Error) || (!this.state.username2Error && !this.state.username3Error && !this.state.username4Error ) ) {
       let game = {
           fkPlayground: this.props.idPg,
